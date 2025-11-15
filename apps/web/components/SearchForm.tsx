@@ -6,6 +6,7 @@ import { Search, Loader2, Filter, X } from 'lucide-react';
 
 interface SearchFormProps {
   onSearch: (params: SearchParams) => void;
+  onReset?: () => void;
   isLoading: boolean;
 }
 
@@ -19,7 +20,7 @@ export interface SearchParams {
   sex?: string;
 }
 
-export default function SearchForm({ onSearch, isLoading }: SearchFormProps) {
+export default function SearchForm({ onSearch, onReset, isLoading }: SearchFormProps) {
   const [name, setName] = useState('');
   const [relationName, setRelationName] = useState('');
   const [houseNo, setHouseNo] = useState('');
@@ -56,17 +57,23 @@ export default function SearchForm({ onSearch, isLoading }: SearchFormProps) {
     setPartNo('');
     setAge('');
     setSex('');
+    setShowAdvancedFilters(false);
+
+    // Call parent reset handler to clear results
+    if (onReset) {
+      onReset();
+    }
   };
 
   const hasSearchCriteria = name.trim() || relationName.trim() || houseNo.trim() || idCardNo.trim();
 
   return (
     <form onSubmit={handleSubmit} className="space-y-3">
-      {/* Primary Search Fields */}
-      <div className="grid grid-cols-1 gap-3 lg:grid-cols-2 lg:gap-4">
+      {/* Mobile: Two column layout */}
+      <div className="grid grid-cols-1 gap-3 lg:hidden">
         <div>
-          <label htmlFor="name" className="block text-xs font-medium mb-1.5 lg:text-sm lg:mb-2">
-            Name (Tamil)
+          <label htmlFor="name" className="block text-xs font-medium mb-1.5">
+            Name
           </label>
           <input
             id="name"
@@ -79,123 +86,188 @@ export default function SearchForm({ onSearch, isLoading }: SearchFormProps) {
         </div>
 
         <div>
-          <label htmlFor="house-no" className="block text-xs font-medium mb-1.5 lg:text-sm lg:mb-2">
-            House Number
+          <label htmlFor="house-no-mobile" className="block text-xs font-medium mb-1.5">
+            House No
           </label>
           <input
-            id="house-no"
+            id="house-no-mobile"
             type="text"
             value={houseNo}
             onChange={(e) => setHouseNo(e.target.value)}
-            placeholder="Enter house number..."
+            placeholder="House number..."
             className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
       </div>
 
-      {/* Advanced Filters Toggle (Mobile Only) */}
-      <div className="lg:hidden">
-        <button
+      {/* Desktop: All filters, buttons in one row */}
+      <div className="hidden lg:flex lg:gap-3 lg:items-end">
+        <div className="flex-1">
+          <label htmlFor="name-desktop" className="block text-xs font-medium mb-1.5">
+            Name
+          </label>
+          <input
+            id="name-desktop"
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Name..."
+            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+
+        <div className="flex-1">
+          <label htmlFor="relation-name-desktop" className="block text-xs font-medium mb-1.5">
+            Relation
+          </label>
+          <input
+            id="relation-name-desktop"
+            type="text"
+            value={relationName}
+            onChange={(e) => setRelationName(e.target.value)}
+            placeholder="Relation..."
+            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+
+        <div className="flex-1">
+          <label htmlFor="house-no-desktop" className="block text-xs font-medium mb-1.5">
+            House
+          </label>
+          <input
+            id="house-no-desktop"
+            type="text"
+            value={houseNo}
+            onChange={(e) => setHouseNo(e.target.value)}
+            placeholder="House..."
+            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+
+        <div className="flex-1">
+          <label htmlFor="id-card-desktop" className="block text-xs font-medium mb-1.5">
+            ID Card
+          </label>
+          <input
+            id="id-card-desktop"
+            type="text"
+            value={idCardNo}
+            onChange={(e) => setIdCardNo(e.target.value)}
+            placeholder="ID Card..."
+            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+
+        <div className="flex-1">
+          <label htmlFor="part-no-desktop" className="block text-xs font-medium mb-1.5">
+            Part
+          </label>
+          <input
+            id="part-no-desktop"
+            type="number"
+            value={partNo}
+            onChange={(e) => setPartNo(e.target.value)}
+            placeholder="Part..."
+            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+
+        <div className="flex gap-2">
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
+            className="whitespace-nowrap"
+          >
+            {showAdvancedFilters ? (
+              <>
+                <X className="h-4 w-4" />
+                <span className="ml-1.5">Hide</span>
+              </>
+            ) : (
+              <>
+                <Filter className="h-4 w-4" />
+                <span className="ml-1.5">More</span>
+              </>
+            )}
+          </Button>
+
+          <Button type="submit" disabled={isLoading || !hasSearchCriteria} size="sm" className="whitespace-nowrap">
+            {isLoading ? (
+              <>
+                <Loader2 className="h-4 w-4 animate-spin" />
+                <span className="ml-1.5">Searching...</span>
+              </>
+            ) : (
+              <>
+                <Search className="h-4 w-4" />
+                <span className="ml-1.5">Search</span>
+              </>
+            )}
+          </Button>
+
+          <Button type="button" variant="outline" onClick={handleReset} size="sm">
+            <X className="h-4 w-4" />
+          </Button>
+        </div>
+      </div>
+
+      {/* Desktop: Advanced Filters */}
+      <div className={`hidden lg:grid lg:grid-cols-2 lg:gap-3 ${showAdvancedFilters ? 'lg:grid' : 'lg:hidden'}`}>
+        <div>
+          <label htmlFor="age-desktop" className="block text-xs font-medium mb-1.5">
+            Age
+          </label>
+          <input
+            id="age-desktop"
+            type="number"
+            value={age}
+            onChange={(e) => setAge(e.target.value)}
+            placeholder="Age..."
+            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+
+        <div>
+          <label htmlFor="sex-desktop" className="block text-xs font-medium mb-1.5">
+            Gender
+          </label>
+          <select
+            id="sex-desktop"
+            value={sex}
+            onChange={(e) => setSex(e.target.value)}
+            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="">All</option>
+            <option value="M">Male</option>
+            <option value="F">Female</option>
+            <option value="O">Other</option>
+          </select>
+        </div>
+      </div>
+
+      {/* Mobile: Action Buttons */}
+      <div className="flex gap-2 pt-1 lg:hidden">
+        <Button
           type="button"
+          variant="outline"
+          size="sm"
           onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
-          className="flex items-center gap-2 text-sm text-blue-600 font-medium"
         >
           {showAdvancedFilters ? (
             <>
               <X className="h-4 w-4" />
-              Hide Filters
+              <span className="ml-1.5">Hide</span>
             </>
           ) : (
             <>
               <Filter className="h-4 w-4" />
-              More Filters
+              <span className="ml-1.5">More</span>
             </>
           )}
-        </button>
-      </div>
+        </Button>
 
-      {/* Advanced Filters - Always visible on desktop, collapsible on mobile */}
-      <div className={`space-y-3 ${showAdvancedFilters ? 'block' : 'hidden'} lg:block lg:space-y-4`}>
-        <div className="grid grid-cols-1 gap-3 lg:grid-cols-2 lg:gap-4">
-          <div>
-            <label htmlFor="relation-name" className="block text-xs font-medium mb-1.5 lg:text-sm lg:mb-2">
-              Relation Name (Tamil)
-            </label>
-            <input
-              id="relation-name"
-              type="text"
-              value={relationName}
-              onChange={(e) => setRelationName(e.target.value)}
-              placeholder="Enter relation name..."
-              className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-
-          <div>
-            <label htmlFor="id-card" className="block text-xs font-medium mb-1.5 lg:text-sm lg:mb-2">
-              ID Card Number
-            </label>
-            <input
-              id="id-card"
-              type="text"
-              value={idCardNo}
-              onChange={(e) => setIdCardNo(e.target.value)}
-              placeholder="Enter ID card number..."
-              className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-        </div>
-
-        <div className="grid grid-cols-2 gap-3 lg:grid-cols-3 lg:gap-4">
-          <div>
-            <label htmlFor="part-no" className="block text-xs font-medium mb-1.5 lg:text-sm lg:mb-2">
-              Part No
-            </label>
-            <input
-              id="part-no"
-              type="number"
-              value={partNo}
-              onChange={(e) => setPartNo(e.target.value)}
-              placeholder="Part no..."
-              className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-
-          <div>
-            <label htmlFor="age" className="block text-xs font-medium mb-1.5 lg:text-sm lg:mb-2">
-              Age
-            </label>
-            <input
-              id="age"
-              type="number"
-              value={age}
-              onChange={(e) => setAge(e.target.value)}
-              placeholder="Age..."
-              className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-
-          <div className="col-span-2 lg:col-span-1">
-            <label htmlFor="sex" className="block text-xs font-medium mb-1.5 lg:text-sm lg:mb-2">
-              Gender
-            </label>
-            <select
-              id="sex"
-              value={sex}
-              onChange={(e) => setSex(e.target.value)}
-              className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              <option value="">All</option>
-              <option value="M">Male</option>
-              <option value="F">Female</option>
-              <option value="O">Other</option>
-            </select>
-          </div>
-        </div>
-      </div>
-
-      {/* Action Buttons */}
-      <div className="flex gap-2 pt-1">
         <Button type="submit" disabled={isLoading || !hasSearchCriteria} size="sm">
           {isLoading ? (
             <>
@@ -209,10 +281,90 @@ export default function SearchForm({ onSearch, isLoading }: SearchFormProps) {
             </>
           )}
         </Button>
+
         <Button type="button" variant="outline" onClick={handleReset} size="sm">
           <X className="h-4 w-4" />
-          <span className="ml-2">Reset</span>
         </Button>
+      </div>
+
+      {/* Mobile: Advanced Filters */}
+      <div className={`space-y-3 lg:hidden ${showAdvancedFilters ? 'block' : 'hidden'}`}>
+        <div className="grid grid-cols-1 gap-3">
+          <div>
+            <label htmlFor="relation-name-mobile" className="block text-xs font-medium mb-1.5">
+              Relation Name
+            </label>
+            <input
+              id="relation-name-mobile"
+              type="text"
+              value={relationName}
+              onChange={(e) => setRelationName(e.target.value)}
+              placeholder="Relation name..."
+              className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          <div>
+            <label htmlFor="id-card-mobile" className="block text-xs font-medium mb-1.5">
+              ID Card Number
+            </label>
+            <input
+              id="id-card-mobile"
+              type="text"
+              value={idCardNo}
+              onChange={(e) => setIdCardNo(e.target.value)}
+              placeholder="ID card..."
+              className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 gap-3">
+          <div>
+            <label htmlFor="part-no-mobile" className="block text-xs font-medium mb-1.5">
+              Part No
+            </label>
+            <input
+              id="part-no-mobile"
+              type="number"
+              value={partNo}
+              onChange={(e) => setPartNo(e.target.value)}
+              placeholder="Part..."
+              className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          <div>
+            <label htmlFor="age-mobile" className="block text-xs font-medium mb-1.5">
+              Age
+            </label>
+            <input
+              id="age-mobile"
+              type="number"
+              value={age}
+              onChange={(e) => setAge(e.target.value)}
+              placeholder="Age..."
+              className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          <div className="col-span-2">
+            <label htmlFor="sex-mobile" className="block text-xs font-medium mb-1.5">
+              Gender
+            </label>
+            <select
+              id="sex-mobile"
+              value={sex}
+              onChange={(e) => setSex(e.target.value)}
+              className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="">All</option>
+              <option value="M">Male</option>
+              <option value="F">Female</option>
+              <option value="O">Other</option>
+            </select>
+          </div>
+        </div>
       </div>
     </form>
   );
