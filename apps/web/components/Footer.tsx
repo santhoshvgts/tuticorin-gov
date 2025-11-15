@@ -3,7 +3,21 @@
 import { ArrowUp, Phone, Mail } from 'lucide-react';
 import { useState, useEffect } from 'react';
 
-export default function Footer() {
+interface FooterProps {
+  constituency?: string;
+}
+
+const CONSTITUENCY_NAMES: Record<string, { en: string; ta: string }> = {
+  'AC210': { en: 'Thoothukudi', ta: 'தூத்துக்குடி' },
+  'AC211': { en: 'Vilathikulam', ta: 'விளாத்திகுளம்' },
+  'AC212': { en: 'Tiruchendur', ta: 'திருச்செந்தூர்' },
+  'AC224': { en: 'Srivaikuntam', ta: 'ஸ்ரீவைகுண்டம்' },
+  'AC225': { en: 'Constituency 225', ta: 'தொகுதி 225' },
+  'AC226': { en: 'Constituency 226', ta: 'தொகுதி 226' },
+  'AC227': { en: 'Constituency 227', ta: 'தொகுதி 227' },
+};
+
+export default function Footer({ constituency }: FooterProps) {
   const [showScrollTop, setShowScrollTop] = useState(false);
 
   useEffect(() => {
@@ -19,6 +33,21 @@ export default function Footer() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const getFooterText = () => {
+    if (!constituency) {
+      return 'தேர்தாளர் பட்டியல் தேடல் அமைப்பு - தூத்துக்குடி மாவட்டம் / Electoral Roll Search System - Thoothukudi District';
+    }
+
+    const acNumber = constituency.replace('AC', '');
+    const names = CONSTITUENCY_NAMES[constituency];
+
+    if (names) {
+      return `${names.ta} சட்டமன்ற தொகுதி ${acNumber}-ன் தேர்தாளர் பட்டியல் தேடல் அமைப்பு / Electoral Roll Search System for ${names.en} Assembly Constituency ${acNumber}`;
+    }
+
+    return `சட்டமன்ற தொகுதி ${acNumber}-ன் தேர்தாளர் பட்டியல் தேடல் அமைப்பு / Electoral Roll Search System for Assembly Constituency ${acNumber}`;
+  };
+
   return (
     <>
       <footer className="bg-gray-800 text-gray-300 py-4 mt-auto">
@@ -26,7 +55,7 @@ export default function Footer() {
           <div className="flex flex-col items-center gap-3 text-center text-xs lg:text-sm">
             {/* Purpose Statement */}
             <div className="text-sm lg:text-base font-medium">
-              தூத்துக்குடி சட்டமன்ற தொகுதி 210-ன் தேர்தாளர் பட்டியல் தேடல் அமைப்பு / Electoral Roll Search System for Thoothukudi Assembly Constituency 210
+              {getFooterText()}
             </div>
 
             {/* Contact Information */}

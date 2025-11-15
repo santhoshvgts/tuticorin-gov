@@ -56,6 +56,42 @@ export default function Page() {
     setSelectedTsc(tscFromUrl);
   }, [tscFromUrl]);
 
+  // Update page title and meta tags based on selected constituency
+  useEffect(() => {
+    const title = selectedTsc
+      ? `${selectedTsc} | Special Intensive Revision | Thoothukudi District`
+      : 'Special Intensive Revision | Thoothukudi District';
+
+    const description = selectedTsc
+      ? `Search electoral roll for Assembly Constituency ${selectedTsc.replace('AC', '')} - 2002 Data Thoothukudi District`
+      : 'Search electoral roll for Thoothukudi District - 2002 Data';
+
+    // Update title
+    document.title = title;
+
+    // Update or create OG meta tags
+    const updateMetaTag = (property: string, content: string) => {
+      let meta = document.querySelector(`meta[property="${property}"]`);
+      if (!meta) {
+        meta = document.createElement('meta');
+        meta.setAttribute('property', property);
+        document.head.appendChild(meta);
+      }
+      meta.setAttribute('content', content);
+    };
+
+    // Remove OG image if exists
+    const ogImage = document.querySelector('meta[property="og:image"]');
+    if (ogImage) {
+      ogImage.remove();
+    }
+
+    // Update OG tags
+    updateMetaTag('og:title', title);
+    updateMetaTag('og:description', description);
+    updateMetaTag('og:type', 'website');
+  }, [selectedTsc]);
+
   // Handler to select constituency
   const handleSelectConstituency = (tsc: string) => {
     setSelectedTsc(tsc);
@@ -361,7 +397,7 @@ export default function Page() {
         </div>
       )}
 
-      <Footer />
+      <Footer constituency={selectedTsc} />
     </div>
   );
 }
