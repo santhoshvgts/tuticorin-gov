@@ -9,24 +9,31 @@
     "start": "next start",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "import": "tsx scripts/import-data.ts"
   },
   "dependencies": {
     "@workspace/ui": "workspace:*",
     "lucide-react": "^0.475.0",
+    "mongodb": "^7.0.0",
+    "mongoose": "^8.19.4",
     "next": "^15.4.5",
     "next-themes": "^0.4.6",
     "react": "^19.1.1",
-    "react-dom": "^19.1.1"
+    "react-dom": "^19.1.1",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.11",
     "@types/node": "^20.19.9",
     "@types/react": "^19.1.9",
     "@types/react-dom": "^19.1.7",
+    "@types/xlsx": "^0.0.36",
     "@workspace/eslint-config": "workspace:^",
     "@workspace/typescript-config": "workspace:*",
+    "dotenv": "^17.2.3",
     "eslint": "^9.32.0",
+    "tsx": "^4.20.6",
     "typescript": "^5.9.2"
   }
 }
