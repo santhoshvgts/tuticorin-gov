@@ -73,7 +73,7 @@ export default function SearchForm({ onSearch, onReset, isLoading }: SearchFormP
       <div className="grid grid-cols-1 gap-3 lg:hidden">
         <div>
           <label htmlFor="name" className="block text-xs font-medium mb-1.5">
-            Name
+            Voter Name / வாக்காளர் பெயர்
           </label>
           <input
             id="name"
@@ -87,7 +87,7 @@ export default function SearchForm({ onSearch, onReset, isLoading }: SearchFormP
 
         <div>
           <label htmlFor="house-no-mobile" className="block text-xs font-medium mb-1.5">
-            House No
+            House No / வீட்டு எண்
           </label>
           <input
             id="house-no-mobile"
@@ -104,7 +104,7 @@ export default function SearchForm({ onSearch, onReset, isLoading }: SearchFormP
       <div className="hidden lg:flex lg:gap-3 lg:items-end">
         <div className="flex-1">
           <label htmlFor="name-desktop" className="block text-xs font-medium mb-1.5">
-            Name
+            Voter Name / வாக்காளர் பெயர்
           </label>
           <input
             id="name-desktop"
@@ -118,7 +118,7 @@ export default function SearchForm({ onSearch, onReset, isLoading }: SearchFormP
 
         <div className="flex-1">
           <label htmlFor="relation-name-desktop" className="block text-xs font-medium mb-1.5">
-            Relation
+            Relation Name / உறவினர் பெயர்
           </label>
           <input
             id="relation-name-desktop"
@@ -132,7 +132,7 @@ export default function SearchForm({ onSearch, onReset, isLoading }: SearchFormP
 
         <div className="flex-1">
           <label htmlFor="house-no-desktop" className="block text-xs font-medium mb-1.5">
-            House
+            House No / வீட்டு எண்
           </label>
           <input
             id="house-no-desktop"
@@ -146,7 +146,7 @@ export default function SearchForm({ onSearch, onReset, isLoading }: SearchFormP
 
         <div className="flex-1">
           <label htmlFor="id-card-desktop" className="block text-xs font-medium mb-1.5">
-            ID Card
+            ID Card No / அடையாள அட்டை எண்
           </label>
           <input
             id="id-card-desktop"
@@ -160,7 +160,7 @@ export default function SearchForm({ onSearch, onReset, isLoading }: SearchFormP
 
         <div className="flex-1">
           <label htmlFor="part-no-desktop" className="block text-xs font-medium mb-1.5">
-            Part
+            Part No / பகுதி எண்
           </label>
           <input
             id="part-no-desktop"
@@ -217,7 +217,7 @@ export default function SearchForm({ onSearch, onReset, isLoading }: SearchFormP
       <div className={`hidden lg:grid lg:grid-cols-2 lg:gap-3 ${showAdvancedFilters ? 'lg:grid' : 'lg:hidden'}`}>
         <div>
           <label htmlFor="age-desktop" className="block text-xs font-medium mb-1.5">
-            Age
+            Age / வயது
           </label>
           <input
             id="age-desktop"
@@ -231,7 +231,7 @@ export default function SearchForm({ onSearch, onReset, isLoading }: SearchFormP
 
         <div>
           <label htmlFor="sex-desktop" className="block text-xs font-medium mb-1.5">
-            Gender
+            Gender / பாலினம்
           </label>
           <select
             id="sex-desktop"
@@ -292,7 +292,7 @@ export default function SearchForm({ onSearch, onReset, isLoading }: SearchFormP
         <div className="grid grid-cols-1 gap-3">
           <div>
             <label htmlFor="relation-name-mobile" className="block text-xs font-medium mb-1.5">
-              Relation Name
+              Relation Name / உறவினர் பெயர்
             </label>
             <input
               id="relation-name-mobile"
@@ -306,7 +306,7 @@ export default function SearchForm({ onSearch, onReset, isLoading }: SearchFormP
 
           <div>
             <label htmlFor="id-card-mobile" className="block text-xs font-medium mb-1.5">
-              ID Card Number
+              ID Card No / அடையாள அட்டை எண்
             </label>
             <input
               id="id-card-mobile"
@@ -322,7 +322,7 @@ export default function SearchForm({ onSearch, onReset, isLoading }: SearchFormP
         <div className="grid grid-cols-2 gap-3">
           <div>
             <label htmlFor="part-no-mobile" className="block text-xs font-medium mb-1.5">
-              Part No
+              Part No / பகுதி எண்
             </label>
             <input
               id="part-no-mobile"
@@ -336,7 +336,7 @@ export default function SearchForm({ onSearch, onReset, isLoading }: SearchFormP
 
           <div>
             <label htmlFor="age-mobile" className="block text-xs font-medium mb-1.5">
-              Age
+              Age / வயது
             </label>
             <input
               id="age-mobile"
@@ -350,7 +350,7 @@ export default function SearchForm({ onSearch, onReset, isLoading }: SearchFormP
 
           <div className="col-span-2">
             <label htmlFor="sex-mobile" className="block text-xs font-medium mb-1.5">
-              Gender
+              Gender / பாலினம்
             </label>
             <select
               id="sex-mobile"
