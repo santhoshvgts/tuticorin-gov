@@ -18,8 +18,7 @@ export async function GET(request: NextRequest) {
     const page = parseInt(searchParams.get('page') || '1');
     const skip = (page - 1) * limit;
 
-    const searchQuery: any = {};
-    const andConditions: any[] = [];
+    const andConditions = [];
 
     // Build search query based on provided fields
     if (name) {
@@ -64,12 +63,11 @@ export async function GET(request: NextRequest) {
     }
 
     // Combine all conditions
-    if (andConditions.length > 0) {
-      searchQuery.$and = andConditions;
-    }
+    const searchQuery = andConditions.length > 0 ? { $and: andConditions } : {};
 
     // Execute search
     const [voters, total] = await Promise.all([
+      // @ts-expect-error - Mongoose typing issue with dynamic query objects
       Voter.find(searchQuery)
         .sort({ acNo: 1, partNo: 1, slNoInPart: 1 })
         .skip(skip)
@@ -88,12 +86,12 @@ export async function GET(request: NextRequest) {
         totalPages: Math.ceil(total / limit),
       },
     });
-  } catch (error: any) {
+  } catch (error) {
     console.error('Search error:', error);
     return NextResponse.json(
       {
         success: false,
-        error: error.message || 'An error occurred while searching',
+        error: error instanceof Error ? error.message : 'An error occurred while searching',
       },
       { status: 500 }
     );

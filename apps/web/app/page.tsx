@@ -204,7 +204,7 @@ export default function Page() {
               </div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">No Results Found</h3>
               <p className="text-sm text-gray-600 mb-4">
-                We couldn't find any voters matching your search criteria. Please try adjusting your filters or search terms.
+                We couldn&apos;t find any voters matching your search criteria. Please try adjusting your filters or search terms.
               </p>
               <button
                 onClick={handleReset}

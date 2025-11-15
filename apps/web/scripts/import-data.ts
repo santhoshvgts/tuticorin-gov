@@ -76,13 +76,20 @@ async function importData() {
     console.log(`Reading file: ${filePath}`);
     const workbook = XLSX.readFile(filePath);
     const sheetName = workbook.SheetNames[0];
+    if (!sheetName) {
+      throw new Error('No sheets found in the Excel file');
+    }
     const worksheet = workbook.Sheets[sheetName];
+    if (!worksheet) {
+      throw new Error(`Sheet "${sheetName}" not found in the Excel file`);
+    }
     const data = XLSX.utils.sheet_to_json(worksheet, { raw: false });
 
     console.log(`Found ${data.length} rows in Excel file`);
 
     // Clear existing data (optional - comment out if you want to keep existing data)
     console.log('Clearing existing data...');
+    // @ts-expect-error - Mongoose typing issue with empty query object
     await Voter.deleteMany({});
 
     const voters = [];
@@ -117,6 +124,7 @@ async function importData() {
 
           // Batch insert every 1000 records
           if (voters.length >= 1000) {
+            // @ts-expect-error - Mongoose typing issue with document creation
             await Voter.insertMany(voters);
             console.log(`Inserted ${processed} records...`);
             voters.length = 0;
@@ -129,6 +137,7 @@ async function importData() {
 
     // Insert remaining records
     if (voters.length > 0) {
+      // @ts-expect-error - Mongoose typing issue with document creation
       await Voter.insertMany(voters);
       console.log(`Inserted remaining ${voters.length} records`);
     }
@@ -147,6 +156,7 @@ async function importData() {
 
       // Clear existing legacy part data
       console.log('Clearing existing legacy part data...');
+      // @ts-expect-error - Mongoose typing issue with empty query object
       await LegacyPart.deleteMany({});
 
       const legacyParts = [];
@@ -170,6 +180,7 @@ async function importData() {
 
             // Batch insert every 100 records
             if (legacyParts.length >= 100) {
+              // @ts-expect-error - Mongoose typing issue with document creation
               await LegacyPart.insertMany(legacyParts);
               console.log(`Inserted ${legacyProcessed} legacy part records...`);
               legacyParts.length = 0;
@@ -182,6 +193,7 @@ async function importData() {
 
       // Insert remaining records
       if (legacyParts.length > 0) {
+        // @ts-expect-error - Mongoose typing issue with document creation
         await LegacyPart.insertMany(legacyParts);
         console.log(`Inserted remaining ${legacyParts.length} legacy part records`);
       }
