@@ -8,10 +8,11 @@ import AC224 from '@/lib/models/AC224';
 import AC225 from '@/lib/models/AC225';
 import AC226 from '@/lib/models/AC226';
 import AC227 from '@/lib/models/AC227';
-import LegacyPart from '@/lib/models/LegacyPart';
+import { Model } from 'mongoose';
 
 // Model mapping based on tsc (Taluk/Constituency) parameter
-const MODEL_MAP: Record<string, any> = {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const MODEL_MAP: Record<string, Model<any>> = {
   'AC210': AC210,
   'AC211': AC211,
   'AC212': AC212,

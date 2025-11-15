@@ -58,7 +58,6 @@ async function importSheetData(
 
   // Clear existing data
   console.log(`Clearing existing ${modelName} data...`);
-  // @ts-expect-error - Mongoose typing issue with empty query object
   await Model.deleteMany({});
 
   const records = [];
@@ -93,7 +92,6 @@ async function importSheetData(
 
         // Batch insert every 1000 records
         if (records.length >= 1000) {
-          // @ts-expect-error - Mongoose typing issue with document creation
           await Model.insertMany(records);
           console.log(`Inserted ${processed} ${modelName} records...`);
           records.length = 0;
@@ -106,7 +104,6 @@ async function importSheetData(
 
   // Insert remaining records
   if (records.length > 0) {
-    // @ts-expect-error - Mongoose typing issue with document creation
     await Model.insertMany(records);
     console.log(`Inserted remaining ${records.length} ${modelName} records`);
   }

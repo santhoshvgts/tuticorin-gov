@@ -1,7 +1,5 @@
 'use client';
 
-import { Phone, Mail } from 'lucide-react';
-
 interface HeaderProps {
   constituency?: string;
 }
