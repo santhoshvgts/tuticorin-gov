@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useSearchParams } from 'next/navigation';
 import SearchForm, { SearchParams } from '@/components/SearchForm';
 import VoterResults from '@/components/VoterResults';
 import Header from '@/components/Header';
@@ -35,6 +36,9 @@ interface SearchResponse {
 }
 
 export default function Page() {
+  const searchParams = useSearchParams();
+  const tscFromUrl = searchParams.get('tsc') || ''; // No default, empty means not selected
+
   const [voters, setVoters] = useState<Voter[]>([]);
   const [pagination, setPagination] = useState({
     total: 0,
@@ -45,6 +49,21 @@ export default function Page() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [currentSearchParams, setCurrentSearchParams] = useState<SearchParams | null>(null);
+  const [selectedTsc, setSelectedTsc] = useState<string>(tscFromUrl);
+
+  // Sync selectedTsc with URL parameter
+  useEffect(() => {
+    setSelectedTsc(tscFromUrl);
+  }, [tscFromUrl]);
+
+  // Handler to select constituency
+  const handleSelectConstituency = (tsc: string) => {
+    setSelectedTsc(tsc);
+    // Update URL
+    const url = new URL(window.location.href);
+    url.searchParams.set('tsc', tsc);
+    window.history.pushState({}, '', url);
+  };
 
   const performSearch = async (params: SearchParams, page: number = 1) => {
     setIsLoading(true);
@@ -54,6 +73,7 @@ export default function Page() {
       const searchParams = new URLSearchParams({
         page: page.toString(),
         limit: '50',
+        tsc: selectedTsc, // Add tsc parameter
       });
 
       if (params.name) searchParams.append('name', params.name);
@@ -107,25 +127,111 @@ export default function Page() {
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
-      <Header />
+      <Header constituency={selectedTsc} />
+
+      {/* Constituency Selection Grid - Show when no constituency selected */}
+      {!selectedTsc && (
+        <div className="container mx-auto px-4 py-8 lg:py-12">
+          <div className="max-w-5xl mx-auto">
+            <div className="text-center mb-8">
+              <h2 className="text-2xl lg:text-3xl font-bold text-gray-900 mb-2">
+                Select Assembly Constituency
+              </h2>
+              <p className="text-lg text-gray-600">
+                சட்டமன்றத் தொகுதியைத் தேர்ந்தெடுக்கவும்
+              </p>
+            </div>
+
+            <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
+              <button
+                onClick={() => handleSelectConstituency('AC210')}
+                className="bg-white hover:bg-blue-50 border-2 border-gray-200 hover:border-blue-400 rounded-lg p-6 text-left transition-all duration-200 shadow-sm hover:shadow-md"
+              >
+                <div className="text-xl font-bold text-blue-900 mb-1">AC 210</div>
+                <div className="text-gray-700 font-medium">Thoothukudi</div>
+                <div className="text-gray-600 text-sm mt-1">தூத்துக்குடி</div>
+              </button>
+
+              <button
+                onClick={() => handleSelectConstituency('AC211')}
+                className="bg-white hover:bg-blue-50 border-2 border-gray-200 hover:border-blue-400 rounded-lg p-6 text-left transition-all duration-200 shadow-sm hover:shadow-md"
+              >
+                <div className="text-xl font-bold text-blue-900 mb-1">AC 211</div>
+                <div className="text-gray-700 font-medium">Vilathikulam</div>
+                <div className="text-gray-600 text-sm mt-1">விளாத்திகுளம்</div>
+              </button>
+
+              <button
+                onClick={() => handleSelectConstituency('AC212')}
+                className="bg-white hover:bg-blue-50 border-2 border-gray-200 hover:border-blue-400 rounded-lg p-6 text-left transition-all duration-200 shadow-sm hover:shadow-md"
+              >
+                <div className="text-xl font-bold text-blue-900 mb-1">AC 212</div>
+                <div className="text-gray-700 font-medium">Tiruchendur</div>
+                <div className="text-gray-600 text-sm mt-1">திருச்செந்தூர்</div>
+              </button>
+
+              <button
+                onClick={() => handleSelectConstituency('AC224')}
+                className="bg-white hover:bg-blue-50 border-2 border-gray-200 hover:border-blue-400 rounded-lg p-6 text-left transition-all duration-200 shadow-sm hover:shadow-md"
+              >
+                <div className="text-xl font-bold text-blue-900 mb-1">AC 224</div>
+                <div className="text-gray-700 font-medium">Srivaikuntam</div>
+                <div className="text-gray-600 text-sm mt-1">ஸ்ரீவைகுண்டம்</div>
+              </button>
+
+              <button
+                onClick={() => handleSelectConstituency('AC225')}
+                className="bg-white hover:bg-blue-50 border-2 border-gray-200 hover:border-blue-400 rounded-lg p-6 text-left transition-all duration-200 shadow-sm hover:shadow-md"
+              >
+                <div className="text-xl font-bold text-blue-900 mb-1">AC 225</div>
+                <div className="text-gray-700 font-medium">Constituency 225</div>
+                <div className="text-gray-600 text-sm mt-1">தொகுதி 225</div>
+              </button>
+
+              <button
+                onClick={() => handleSelectConstituency('AC226')}
+                className="bg-white hover:bg-blue-50 border-2 border-gray-200 hover:border-blue-400 rounded-lg p-6 text-left transition-all duration-200 shadow-sm hover:shadow-md"
+              >
+                <div className="text-xl font-bold text-blue-900 mb-1">AC 226</div>
+                <div className="text-gray-700 font-medium">Constituency 226</div>
+                <div className="text-gray-600 text-sm mt-1">தொகுதி 226</div>
+              </button>
+
+              <button
+                onClick={() => handleSelectConstituency('AC227')}
+                className="bg-white hover:bg-blue-50 border-2 border-gray-200 hover:border-blue-400 rounded-lg p-6 text-left transition-all duration-200 shadow-sm hover:shadow-md"
+              >
+                <div className="text-xl font-bold text-blue-900 mb-1">AC 227</div>
+                <div className="text-gray-700 font-medium">Constituency 227</div>
+                <div className="text-gray-600 text-sm mt-1">தொகுதி 227</div>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Sticky Search Form - Desktop Only */}
-      <div className="hidden lg:block sticky top-[73px] z-10 bg-white border-b border-gray-200 shadow-sm">
-        <div className="container mx-auto px-4 py-4">
-          <SearchForm onSearch={handleSearch} onReset={handleReset} isLoading={isLoading} />
-        </div>
-      </div>
-
-      {/* Mobile Search Form */}
-      <div className="lg:hidden">
-        <div className="container mx-auto px-4 py-4">
-          <div className="bg-white rounded-lg shadow-sm p-4">
+      {selectedTsc && (
+        <div className="hidden lg:block sticky top-[73px] z-10 bg-white border-b border-gray-200 shadow-sm">
+          <div className="container mx-auto px-4 py-4">
             <SearchForm onSearch={handleSearch} onReset={handleReset} isLoading={isLoading} />
           </div>
         </div>
-      </div>
+      )}
 
-      <div className="container mx-auto px-4 py-4 lg:py-6 flex-1">
+      {/* Mobile Search Form */}
+      {selectedTsc && (
+        <div className="lg:hidden">
+          <div className="container mx-auto px-4 py-4">
+            <div className="bg-white rounded-lg shadow-sm p-4">
+              <SearchForm onSearch={handleSearch} onReset={handleReset} isLoading={isLoading} />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {selectedTsc && (
+        <div className="container mx-auto px-4 py-4 lg:py-6 flex-1">
         {/* Error Message */}
         {error && (
           <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-4">
@@ -252,7 +358,8 @@ export default function Page() {
             </div>
           </div>
         )}
-      </div>
+        </div>
+      )}
 
       <Footer />
     </div>

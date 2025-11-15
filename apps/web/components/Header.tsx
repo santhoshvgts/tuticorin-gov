@@ -2,7 +2,15 @@
 
 import { Phone, Mail } from 'lucide-react';
 
-export default function Header() {
+interface HeaderProps {
+  constituency?: string;
+}
+
+export default function Header({ constituency }: HeaderProps) {
+  const getConstituencyNumber = (tsc: string) => {
+    return tsc.replace('AC', '');
+  };
+
   return (
     <header className="bg-white border-b border-gray-200 sticky top-0 z-10 shadow-sm">
       <div className="container mx-auto px-4 py-3 lg:py-4">
@@ -12,6 +20,7 @@ export default function Header() {
           </h1>
           <p className="text-sm lg:text-lg font-semibold text-gray-700 mt-0.5 lg:mt-1">
             2002 Data Thoothukudi District
+            {constituency && ` | Assembly Constituency - ${getConstituencyNumber(constituency)}`}
           </p>
         </div>
       </div>
