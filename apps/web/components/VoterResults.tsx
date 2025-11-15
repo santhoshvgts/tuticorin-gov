@@ -21,6 +21,25 @@ interface Voter {
   psName?: string;
 }
 
+// Helper function to get full relation type name
+const getRelationTypeName = (rlnType?: string): string => {
+  if (!rlnType) return '';
+
+  const relationMap: Record<string, string> = {
+    'H': 'Husband',
+    'F': 'Father',
+    'M': 'Mother',
+    'W': 'Wife',
+    'S': 'Son',
+    'D': 'Daughter',
+    'B': 'Brother',
+    'SI': 'Sister',
+    'O': 'Others',
+  };
+
+  return relationMap[rlnType.toUpperCase()] || rlnType;
+};
+
 interface VoterResultsProps {
   voters: Voter[];
   pagination: {
@@ -63,7 +82,7 @@ export default function VoterResults({ voters, pagination, onPageChange }: Voter
                       {voter.fmNameV2 || '-'}
                     </div>
                     <div className="text-sm text-gray-600">
-                      {voter.rlnFmNmV2 ? `${voter.rlnType}: ${voter.rlnFmNmV2}` : '-'}
+                      {voter.rlnFmNmV2 ? `${getRelationTypeName(voter.rlnType)}: ${voter.rlnFmNmV2}` : '-'}
                     </div>
                   </div>
                   <div className="text-xs bg-gray-100 px-2 py-1 rounded">
@@ -154,7 +173,7 @@ export default function VoterResults({ voters, pagination, onPageChange }: Voter
                   {voter.fmNameV2 || '-'}
                 </td>
                 <td className="border border-gray-300 px-4 py-2 text-sm">
-                  {voter.rlnFmNmV2 ? `${voter.rlnFmNmV2} (${voter.rlnType || ''})` : '-'}
+                  {voter.rlnFmNmV2 ? `${voter.rlnFmNmV2} (${getRelationTypeName(voter.rlnType)})` : '-'}
                 </td>
                 <td className="border border-gray-300 px-4 py-2 text-sm">
                   {voter.houseNo || '-'}

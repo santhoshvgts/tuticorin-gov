@@ -115,13 +115,11 @@ export default function Page() {
         )}
 
         {voters.length > 0 && (
-          <div className="bg-white rounded-lg shadow-md p-6">
-            <VoterResults
-              voters={voters}
-              pagination={pagination}
-              onPageChange={handlePageChange}
-            />
-          </div>
+          <VoterResults
+            voters={voters}
+            pagination={pagination}
+            onPageChange={handlePageChange}
+          />
         )}
       </div>
     </div>
