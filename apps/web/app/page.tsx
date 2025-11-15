@@ -58,7 +58,6 @@ export default function Page() {
 
       if (params.name) searchParams.append('name', params.name);
       if (params.relationName) searchParams.append('relationName', params.relationName);
-      if (params.houseNo) searchParams.append('houseNo', params.houseNo);
       if (params.idCardNo) searchParams.append('idCardNo', params.idCardNo);
       if (params.partNo) searchParams.append('partNo', params.partNo);
       if (params.age) searchParams.append('age', params.age);
@@ -146,7 +145,7 @@ export default function Page() {
         {/* Empty State - No Search Applied */}
         {!error && voters.length === 0 && !currentSearchParams && (
           <div className="p-8 lg:p-12 text-center">
-            <div className="max-w-2xl mx-auto">
+            <div className="max-w-5xl mx-auto">
               <div className="mb-6">
                 <svg
                   className="mx-auto h-20 w-20 text-blue-500"
@@ -163,20 +162,58 @@ export default function Page() {
                   />
                 </svg>
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-4">Search Electoral Roll</h3>
-              <div className="space-y-3 text-sm text-gray-600 text-left max-w-lg mx-auto">
-                <p className="font-medium text-center mb-4">Use the filters above to search for voters:</p>
-                <ul className="list-disc list-inside space-y-2">
-                  <li><span className="font-medium">Name:</span> Search by voter name or relation name (supports Tamil and English)</li>
-                  <li><span className="font-medium">Relation Name:</span> Search by father/husband/mother name</li>
-                  <li><span className="font-medium">House Number:</span> Search by exact house number</li>
-                  <li><span className="font-medium">ID Card Number:</span> Search by exact EPIC/Voter ID number</li>
-                  <li><span className="font-medium">Part Number:</span> Search by specific part number</li>
-                  <li><span className="font-medium">More Filters:</span> Filter by age and gender</li>
-                </ul>
-                <p className="text-center mt-6 text-gray-500 italic">
-                  Enter at least one search criterion and click the Search button
-                </p>
+              <h3 className="text-xl font-semibold text-gray-900 mb-6">
+                தேர்தாளர் பட்டியல் தேடல் - 2002 தரவு / Search Electoral Roll - 2002 Data
+              </h3>
+
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 text-left">
+                {/* Tamil Section */}
+                <div className="space-y-3 text-sm text-gray-600">
+                  <p className="font-medium text-center mb-4">
+                    2002 தேர்தாளர் பட்டியலிலிருந்து தேர்தாளர்களைத் தேட மேலே உள்ள வடிப்பான்களைப் பயன்படுத்தவும்:
+                  </p>
+                  <ul className="list-disc list-inside space-y-2">
+                    <li>
+                      <span className="font-medium">வாக்காளர் பெயர்:</span> வாக்காளர் பெயரால் தேடுங்கள் (தமிழ் மற்றும் ஆங்கிலம் ஆதரிக்கப்படுகிறது)
+                    </li>
+                    <li>
+                      <span className="font-medium">உறவினர் பெயர்:</span> தந்தை/கணவர்/தாய் பெயரால் தேடுங்கள்
+                    </li>
+                    <li>
+                      <span className="font-medium">பாலினம்:</span> பாலினத்தால் வடிகட்டவும் (ஆண்/பெண்/மற்றவை)
+                    </li>
+                    <li>
+                      <span className="font-medium">மேலும் வடிப்பான்கள்:</span> அடையாள அட்டை எண், பகுதி எண் மற்றும் வயதின் அடிப்படையில் வடிகட்டவும்
+                    </li>
+                  </ul>
+                  <p className="text-center mt-6 text-gray-500 italic">
+                    குறைந்தபட்சம் ஒரு தேடல் அளவுகோலை உள்ளிட்டு தேடல் பொத்தானைக் கிளிக் செய்யவும்
+                  </p>
+                </div>
+
+                {/* English Section */}
+                <div className="space-y-3 text-sm text-gray-600">
+                  <p className="font-medium text-center mb-4">
+                    Use the filters above to search for electors from the 2002 electoral roll:
+                  </p>
+                  <ul className="list-disc list-inside space-y-2">
+                    <li>
+                      <span className="font-medium">Elector Name:</span> Search by elector name (supports Tamil and English)
+                    </li>
+                    <li>
+                      <span className="font-medium">Relation Name:</span> Search by father/husband/mother name
+                    </li>
+                    <li>
+                      <span className="font-medium">Gender:</span> Filter by gender (Male/Female/Other)
+                    </li>
+                    <li>
+                      <span className="font-medium">More Filters:</span> Filter by ID Card Number, Part Number, and Age
+                    </li>
+                  </ul>
+                  <p className="text-center mt-6 text-gray-500 italic">
+                    Enter at least one search criterion and click the Search button
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -204,7 +241,7 @@ export default function Page() {
               </div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">No Results Found</h3>
               <p className="text-sm text-gray-600 mb-4">
-                We couldn&apos;t find any voters matching your search criteria. Please try adjusting your filters or search terms.
+                We couldn&apos;t find any electors matching your search criteria. Please try adjusting your filters or search terms.
               </p>
               <button
                 onClick={handleReset}

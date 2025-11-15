@@ -9,7 +9,6 @@ export async function GET(request: NextRequest) {
     const searchParams = request.nextUrl.searchParams;
     const name = searchParams.get('name') || '';
     const relationName = searchParams.get('relationName') || '';
-    const houseNo = searchParams.get('houseNo') || '';
     const idCardNo = searchParams.get('idCardNo') || '';
     const partNo = searchParams.get('partNo');
     const age = searchParams.get('age');
@@ -22,13 +21,11 @@ export async function GET(request: NextRequest) {
 
     // Build search query based on provided fields
     if (name) {
-      // Search both Tamil and English fields (case-insensitive, partial match)
+      // Search only elector name in both Tamil and English fields (case-insensitive, partial match)
       andConditions.push({
         $or: [
           { fmNameV2: { $regex: name, $options: 'i' } },
           { fmNameEn: { $regex: name, $options: 'i' } },
-          { rlnFmNmV2: { $regex: name, $options: 'i' } },
-          { rlnFmNmEn: { $regex: name, $options: 'i' } },
         ],
       });
     }
@@ -41,10 +38,6 @@ export async function GET(request: NextRequest) {
           { rlnFmNmEn: { $regex: relationName, $options: 'i' } },
         ],
       });
-    }
-
-    if (houseNo) {
-      andConditions.push({ houseNo: houseNo });
     }
 
     if (idCardNo) {

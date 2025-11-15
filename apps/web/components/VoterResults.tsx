@@ -39,6 +39,19 @@ const getRelationTypeName = (rlnType?: string): string => {
   return relationMap[rlnType.toUpperCase()] || rlnType;
 };
 
+// Helper function to get full gender name
+const getGenderName = (sex?: string): string => {
+  if (!sex) return '-';
+
+  const genderMap: Record<string, string> = {
+    'M': 'Male',
+    'F': 'Female',
+    'O': 'Other',
+  };
+
+  return genderMap[sex.toUpperCase()] || sex;
+};
+
 interface VoterResultsProps {
   voters: Voter[];
   pagination: {
@@ -75,28 +88,23 @@ export default function VoterResults({ voters, pagination, onPageChange }: Voter
           <Card key={voter._id} className="overflow-hidden">
             <CardContent className="p-4">
               <div className="space-y-2">
-                <div className="flex justify-between items-start">
-                  <div className="flex-1">
-                    <div className="font-semibold text-base text-gray-900">
-                      {voter.fmNameV2 || '-'}
-                    </div>
-                    <div className="text-sm text-gray-600">
-                      {voter.rlnFmNmV2 ? `${getRelationTypeName(voter.rlnType)}: ${voter.rlnFmNmV2}` : '-'}
-                    </div>
+                <div className="flex-1">
+                  <div className="font-semibold text-base text-gray-900">
+                    {voter.fmNameV2 || '-'}
                   </div>
-                  <div className="text-xs bg-gray-100 px-2 py-1 rounded">
-                    SL {voter.slNoInPart}
+                  <div className="text-sm text-gray-600">
+                    {voter.rlnFmNmV2 ? `${voter.rlnFmNmV2} (${getRelationTypeName(voter.rlnType)})` : '-'}
                   </div>
                 </div>
 
                 <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-sm pt-2 border-t">
                   <div>
-                    <span className="text-gray-500">AC/Part:</span>
-                    <span className="ml-1 font-medium">{voter.acNo}/{voter.partNo}</span>
+                    <span className="text-gray-500">Serial No:</span>
+                    <span className="ml-1 font-medium">{voter.slNoInPart}</span>
                   </div>
                   <div>
-                    <span className="text-gray-500">House:</span>
-                    <span className="ml-1 font-medium">{voter.houseNo || '-'}</span>
+                    <span className="text-gray-500">Part:</span>
+                    <span className="ml-1 font-medium">{voter.partNo}</span>
                   </div>
                   <div>
                     <span className="text-gray-500">Age:</span>
@@ -104,14 +112,8 @@ export default function VoterResults({ voters, pagination, onPageChange }: Voter
                   </div>
                   <div>
                     <span className="text-gray-500">Gender:</span>
-                    <span className="ml-1 font-medium">{voter.sex || '-'}</span>
+                    <span className="ml-1 font-medium">{getGenderName(voter.sex)}</span>
                   </div>
-                  {voter.idCardNo && (
-                    <div className="col-span-2">
-                      <span className="text-gray-500">ID Card:</span>
-                      <span className="ml-1 font-mono text-xs">{voter.idCardNo}</span>
-                    </div>
-                  )}
                   {voter.psName && (
                     <div className="col-span-2">
                       <span className="text-gray-500">Polling Station:</span>
@@ -131,57 +133,43 @@ export default function VoterResults({ voters, pagination, onPageChange }: Voter
           <thead>
             <tr className="bg-gray-100">
               <th className="border border-gray-300 px-4 py-2 text-left text-sm font-semibold">
-                AC No
+                Serial No / வரிசை எண்
               </th>
               <th className="border border-gray-300 px-4 py-2 text-left text-sm font-semibold">
-                Part No
+                Elector Name / வாக்காளர் பெயர்
               </th>
               <th className="border border-gray-300 px-4 py-2 text-left text-sm font-semibold">
-                SL No
+                Relation Name / உறவினர் பெயர்
               </th>
               <th className="border border-gray-300 px-4 py-2 text-left text-sm font-semibold">
-                Name (Tamil)
+                Age / வயது
               </th>
               <th className="border border-gray-300 px-4 py-2 text-left text-sm font-semibold">
-                Relation
+                Gender / பாலினம்
               </th>
               <th className="border border-gray-300 px-4 py-2 text-left text-sm font-semibold">
-                House No
+                Part No / பாகம் எண்
               </th>
               <th className="border border-gray-300 px-4 py-2 text-left text-sm font-semibold">
-                Age
-              </th>
-              <th className="border border-gray-300 px-4 py-2 text-left text-sm font-semibold">
-                Gender
-              </th>
-              <th className="border border-gray-300 px-4 py-2 text-left text-sm font-semibold">
-                ID Card
-              </th>
-              <th className="border border-gray-300 px-4 py-2 text-left text-sm font-semibold">
-                Polling Station
+                Polling Station Name / வாக்குச்சாவடி பெயர்
               </th>
             </tr>
           </thead>
           <tbody>
             {voters.map((voter) => (
               <tr key={voter._id} className="hover:bg-gray-50">
-                <td className="border border-gray-300 px-4 py-2 text-sm">{voter.acNo}</td>
-                <td className="border border-gray-300 px-4 py-2 text-sm">{voter.partNo}</td>
-                <td className="border border-gray-300 px-4 py-2 text-sm">{voter.slNoInPart}</td>
+                <td className="border border-gray-300 px-4 py-2 text-sm">
+                  {voter.slNoInPart}
+                </td>
                 <td className="border border-gray-300 px-4 py-2 text-sm font-medium">
                   {voter.fmNameV2 || '-'}
                 </td>
                 <td className="border border-gray-300 px-4 py-2 text-sm">
                   {voter.rlnFmNmV2 ? `${voter.rlnFmNmV2} (${getRelationTypeName(voter.rlnType)})` : '-'}
                 </td>
-                <td className="border border-gray-300 px-4 py-2 text-sm">
-                  {voter.houseNo || '-'}
-                </td>
                 <td className="border border-gray-300 px-4 py-2 text-sm">{voter.age || '-'}</td>
-                <td className="border border-gray-300 px-4 py-2 text-sm">{voter.sex || '-'}</td>
-                <td className="border border-gray-300 px-4 py-2 text-sm font-mono text-xs">
-                  {voter.idCardNo || '-'}
-                </td>
+                <td className="border border-gray-300 px-4 py-2 text-sm">{getGenderName(voter.sex)}</td>
+                <td className="border border-gray-300 px-4 py-2 text-sm">{voter.partNo}</td>
                 <td className="border border-gray-300 px-4 py-2 text-sm">{voter.psName || '-'}</td>
               </tr>
             ))}

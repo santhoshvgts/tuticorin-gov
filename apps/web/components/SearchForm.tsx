@@ -13,7 +13,6 @@ interface SearchFormProps {
 export interface SearchParams {
   name?: string;
   relationName?: string;
-  houseNo?: string;
   idCardNo?: string;
   partNo?: string;
   age?: string;
@@ -23,7 +22,6 @@ export interface SearchParams {
 export default function SearchForm({ onSearch, onReset, isLoading }: SearchFormProps) {
   const [name, setName] = useState('');
   const [relationName, setRelationName] = useState('');
-  const [houseNo, setHouseNo] = useState('');
   const [idCardNo, setIdCardNo] = useState('');
   const [partNo, setPartNo] = useState('');
   const [age, setAge] = useState('');
@@ -34,14 +32,13 @@ export default function SearchForm({ onSearch, onReset, isLoading }: SearchFormP
     e.preventDefault();
 
     // Check if at least one search field is filled
-    if (!name.trim() && !relationName.trim() && !houseNo.trim() && !idCardNo.trim()) {
+    if (!name.trim() && !relationName.trim() && !idCardNo.trim()) {
       return;
     }
 
     onSearch({
       name: name.trim() || undefined,
       relationName: relationName.trim() || undefined,
-      houseNo: houseNo.trim() || undefined,
       idCardNo: idCardNo.trim() || undefined,
       partNo: partNo.trim() || undefined,
       age: age.trim() || undefined,
@@ -52,7 +49,6 @@ export default function SearchForm({ onSearch, onReset, isLoading }: SearchFormP
   const handleReset = () => {
     setName('');
     setRelationName('');
-    setHouseNo('');
     setIdCardNo('');
     setPartNo('');
     setAge('');
@@ -65,7 +61,7 @@ export default function SearchForm({ onSearch, onReset, isLoading }: SearchFormP
     }
   };
 
-  const hasSearchCriteria = name.trim() || relationName.trim() || houseNo.trim() || idCardNo.trim();
+  const hasSearchCriteria = name.trim() || relationName.trim() || idCardNo.trim();
 
   return (
     <form onSubmit={handleSubmit} className="space-y-3">
@@ -73,7 +69,7 @@ export default function SearchForm({ onSearch, onReset, isLoading }: SearchFormP
       <div className="grid grid-cols-1 gap-3 lg:hidden">
         <div>
           <label htmlFor="name" className="block text-xs font-medium mb-1.5">
-            Voter Name / வாக்காளர் பெயர்
+            Elector Name / வாக்காளர் பெயர்
           </label>
           <input
             id="name"
@@ -86,17 +82,34 @@ export default function SearchForm({ onSearch, onReset, isLoading }: SearchFormP
         </div>
 
         <div>
-          <label htmlFor="house-no-mobile" className="block text-xs font-medium mb-1.5">
-            House No / வீட்டு எண்
+          <label htmlFor="relation-name-mobile-primary" className="block text-xs font-medium mb-1.5">
+            Relation Name / உறவினர் பெயர்
           </label>
           <input
-            id="house-no-mobile"
+            id="relation-name-mobile-primary"
             type="text"
-            value={houseNo}
-            onChange={(e) => setHouseNo(e.target.value)}
-            placeholder="House number..."
+            value={relationName}
+            onChange={(e) => setRelationName(e.target.value)}
+            placeholder="Relation name..."
             className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
+        </div>
+
+        <div>
+          <label htmlFor="sex-mobile-primary" className="block text-xs font-medium mb-1.5">
+            Gender / பாலினம்
+          </label>
+          <select
+            id="sex-mobile-primary"
+            value={sex}
+            onChange={(e) => setSex(e.target.value)}
+            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="">All</option>
+            <option value="M">Male</option>
+            <option value="F">Female</option>
+            <option value="O">Other</option>
+          </select>
         </div>
       </div>
 
@@ -104,7 +117,7 @@ export default function SearchForm({ onSearch, onReset, isLoading }: SearchFormP
       <div className="hidden lg:flex lg:gap-3 lg:items-end">
         <div className="flex-1">
           <label htmlFor="name-desktop" className="block text-xs font-medium mb-1.5">
-            Voter Name / வாக்காளர் பெயர்
+            Elector Name / வாக்காளர் பெயர்
           </label>
           <input
             id="name-desktop"
@@ -131,45 +144,20 @@ export default function SearchForm({ onSearch, onReset, isLoading }: SearchFormP
         </div>
 
         <div className="flex-1">
-          <label htmlFor="house-no-desktop" className="block text-xs font-medium mb-1.5">
-            House No / வீட்டு எண்
+          <label htmlFor="sex-desktop" className="block text-xs font-medium mb-1.5">
+            Gender / பாலினம்
           </label>
-          <input
-            id="house-no-desktop"
-            type="text"
-            value={houseNo}
-            onChange={(e) => setHouseNo(e.target.value)}
-            placeholder="House..."
+          <select
+            id="sex-desktop"
+            value={sex}
+            onChange={(e) => setSex(e.target.value)}
             className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-        </div>
-
-        <div className="flex-1">
-          <label htmlFor="id-card-desktop" className="block text-xs font-medium mb-1.5">
-            ID Card No / அடையாள அட்டை எண்
-          </label>
-          <input
-            id="id-card-desktop"
-            type="text"
-            value={idCardNo}
-            onChange={(e) => setIdCardNo(e.target.value)}
-            placeholder="ID Card..."
-            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-        </div>
-
-        <div className="flex-1">
-          <label htmlFor="part-no-desktop" className="block text-xs font-medium mb-1.5">
-            Part No / பகுதி எண்
-          </label>
-          <input
-            id="part-no-desktop"
-            type="number"
-            value={partNo}
-            onChange={(e) => setPartNo(e.target.value)}
-            placeholder="Part..."
-            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
+          >
+            <option value="">All</option>
+            <option value="M">Male</option>
+            <option value="F">Female</option>
+            <option value="O">Other</option>
+          </select>
         </div>
 
         <div className="flex gap-2">
@@ -214,7 +202,35 @@ export default function SearchForm({ onSearch, onReset, isLoading }: SearchFormP
       </div>
 
       {/* Desktop: Advanced Filters */}
-      <div className={`hidden lg:grid lg:grid-cols-2 lg:gap-3 ${showAdvancedFilters ? 'lg:grid' : 'lg:hidden'}`}>
+      <div className={`hidden lg:grid lg:grid-cols-3 lg:gap-3 ${showAdvancedFilters ? 'lg:grid' : 'lg:hidden'}`}>
+        <div>
+          <label htmlFor="id-card-desktop" className="block text-xs font-medium mb-1.5">
+            ID Card No / அடையாள அட்டை எண்
+          </label>
+          <input
+            id="id-card-desktop"
+            type="text"
+            value={idCardNo}
+            onChange={(e) => setIdCardNo(e.target.value)}
+            placeholder="ID Card..."
+            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+
+        <div>
+          <label htmlFor="part-no-desktop" className="block text-xs font-medium mb-1.5">
+            Part No / பகுதி எண்
+          </label>
+          <input
+            id="part-no-desktop"
+            type="number"
+            value={partNo}
+            onChange={(e) => setPartNo(e.target.value)}
+            placeholder="Part..."
+            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+
         <div>
           <label htmlFor="age-desktop" className="block text-xs font-medium mb-1.5">
             Age / வயது
@@ -227,23 +243,6 @@ export default function SearchForm({ onSearch, onReset, isLoading }: SearchFormP
             placeholder="Age..."
             className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
-        </div>
-
-        <div>
-          <label htmlFor="sex-desktop" className="block text-xs font-medium mb-1.5">
-            Gender / பாலினம்
-          </label>
-          <select
-            id="sex-desktop"
-            value={sex}
-            onChange={(e) => setSex(e.target.value)}
-            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            <option value="">All</option>
-            <option value="M">Male</option>
-            <option value="F">Female</option>
-            <option value="O">Other</option>
-          </select>
         </div>
       </div>
 
@@ -289,21 +288,7 @@ export default function SearchForm({ onSearch, onReset, isLoading }: SearchFormP
 
       {/* Mobile: Advanced Filters */}
       <div className={`space-y-3 lg:hidden ${showAdvancedFilters ? 'block' : 'hidden'}`}>
-        <div className="grid grid-cols-1 gap-3">
-          <div>
-            <label htmlFor="relation-name-mobile" className="block text-xs font-medium mb-1.5">
-              Relation Name / உறவினர் பெயர்
-            </label>
-            <input
-              id="relation-name-mobile"
-              type="text"
-              value={relationName}
-              onChange={(e) => setRelationName(e.target.value)}
-              placeholder="Relation name..."
-              className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-
+        <div className="grid grid-cols-2 gap-3">
           <div>
             <label htmlFor="id-card-mobile" className="block text-xs font-medium mb-1.5">
               ID Card No / அடையாள அட்டை எண்
@@ -317,9 +302,7 @@ export default function SearchForm({ onSearch, onReset, isLoading }: SearchFormP
               className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
-        </div>
 
-        <div className="grid grid-cols-2 gap-3">
           <div>
             <label htmlFor="part-no-mobile" className="block text-xs font-medium mb-1.5">
               Part No / பகுதி எண்
@@ -333,37 +316,20 @@ export default function SearchForm({ onSearch, onReset, isLoading }: SearchFormP
               className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
+        </div>
 
-          <div>
-            <label htmlFor="age-mobile" className="block text-xs font-medium mb-1.5">
-              Age / வயது
-            </label>
-            <input
-              id="age-mobile"
-              type="number"
-              value={age}
-              onChange={(e) => setAge(e.target.value)}
-              placeholder="Age..."
-              className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-
-          <div className="col-span-2">
-            <label htmlFor="sex-mobile" className="block text-xs font-medium mb-1.5">
-              Gender / பாலினம்
-            </label>
-            <select
-              id="sex-mobile"
-              value={sex}
-              onChange={(e) => setSex(e.target.value)}
-              className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              <option value="">All</option>
-              <option value="M">Male</option>
-              <option value="F">Female</option>
-              <option value="O">Other</option>
-            </select>
-          </div>
+        <div>
+          <label htmlFor="age-mobile" className="block text-xs font-medium mb-1.5">
+            Age / வயது
+          </label>
+          <input
+            id="age-mobile"
+            type="number"
+            value={age}
+            onChange={(e) => setAge(e.target.value)}
+            placeholder="Age..."
+            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
         </div>
       </div>
     </form>
