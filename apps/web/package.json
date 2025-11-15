@@ -13,6 +13,7 @@
     "import": "tsx scripts/import-data.ts"
   },
   "dependencies": {
+    "@indic-transliteration/sanscript": "^1.3.3",
     "@workspace/ui": "workspace:*",
     "lucide-react": "^0.475.0",
     "mongodb": "^7.0.0",

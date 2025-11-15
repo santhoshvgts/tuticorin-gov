@@ -25,6 +25,19 @@ import mongoose from 'mongoose';
 import connectDB from '../lib/mongodb.js';
 import Voter from '../lib/models/Voter.js';
 import LegacyPart from '../lib/models/LegacyPart.js';
+import Sanscript from '@indic-transliteration/sanscript';
+
+// Helper function to transliterate Tamil to English
+function transliterateToEnglish(tamilText: string): string {
+  if (!tamilText) return '';
+  try {
+    // Convert Tamil script to ISO romanization (Latin)
+    return Sanscript.t(tamilText, 'tamil', 'iso');
+  } catch (error) {
+    console.warn('Transliteration error:', error);
+    return '';
+  }
+}
 
 async function importData() {
   try {
@@ -77,14 +90,19 @@ async function importData() {
 
     for (const row of data as any[]) {
       try {
+        const fmNameV2 = row.FM_NAME_V2?.toString() || row['FM_NAME_V2']?.toString() || '';
+        const rlnFmNmV2 = row.RLN_FM_NM_V2?.toString() || row['RLN_FM_NM_V2']?.toString() || '';
+
         const voter = {
           acNo: parseInt(row.AC_NO) || parseInt(row['AC_NO']) || 0,
           partNo: parseInt(row.PART_NO) || parseInt(row['PART_NO']) || 0,
           slNoInPart: parseInt(row.SLNOINPART) || parseInt(row['SLNOINPART']) || 0,
           houseNo: row.HOUSE_NO?.toString() || row['HOUSE_NO']?.toString() || '',
           sectionNo: row.SECTION_NO?.toString() || row['SECTION_NO']?.toString() || '',
-          fmNameV2: row.FM_NAME_V2?.toString() || row['FM_NAME_V2']?.toString() || '',
-          rlnFmNmV2: row.RLN_FM_NM_V2?.toString() || row['RLN_FM_NM_V2']?.toString() || '',
+          fmNameV2: fmNameV2,
+          fmNameEn: transliterateToEnglish(fmNameV2),
+          rlnFmNmV2: rlnFmNmV2,
+          rlnFmNmEn: transliterateToEnglish(rlnFmNmV2),
           rlnType: row.RLN_TYPE?.toString() || row['RLN_TYPE']?.toString() || '',
           age: row.AGE ? parseInt(row.AGE) : undefined,
           sex: row.SEX?.toString() || row['SEX']?.toString() || '',

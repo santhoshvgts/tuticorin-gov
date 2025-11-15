@@ -23,18 +23,25 @@ export async function GET(request: NextRequest) {
 
     // Build search query based on provided fields
     if (name) {
-      // Text search for Tamil names (case-insensitive, partial match)
+      // Search both Tamil and English fields (case-insensitive, partial match)
       andConditions.push({
         $or: [
           { fmNameV2: { $regex: name, $options: 'i' } },
+          { fmNameEn: { $regex: name, $options: 'i' } },
           { rlnFmNmV2: { $regex: name, $options: 'i' } },
+          { rlnFmNmEn: { $regex: name, $options: 'i' } },
         ],
       });
     }
 
     if (relationName) {
-      // Search for relation name in Tamil (case-insensitive, partial match)
-      andConditions.push({ rlnFmNmV2: { $regex: relationName, $options: 'i' } });
+      // Search both Tamil and English relation name fields (case-insensitive, partial match)
+      andConditions.push({
+        $or: [
+          { rlnFmNmV2: { $regex: relationName, $options: 'i' } },
+          { rlnFmNmEn: { $regex: relationName, $options: 'i' } },
+        ],
+      });
     }
 
     if (houseNo) {
@@ -42,7 +49,7 @@ export async function GET(request: NextRequest) {
     }
 
     if (idCardNo) {
-      andConditions.push({ idCardNo: { $regex: idCardNo, $options: 'i' } });
+      andConditions.push({ idCardNo: idCardNo });
     }
 
     // Apply additional filters

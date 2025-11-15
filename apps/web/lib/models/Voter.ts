@@ -7,7 +7,9 @@ export interface IVoter extends Document {
   houseNo?: string;
   sectionNo?: string;
   fmNameV2?: string; // Voter name in Tamil
+  fmNameEn?: string; // Voter name transliterated to English
   rlnFmNmV2?: string; // Relation name in Tamil
+  rlnFmNmEn?: string; // Relation name transliterated to English
   rlnType?: string; // H/F/M etc.
   age?: number;
   sex?: string;
@@ -23,7 +25,9 @@ const VoterSchema: Schema = new Schema(
     houseNo: { type: String, index: true },
     sectionNo: { type: String },
     fmNameV2: { type: String, index: true },
+    fmNameEn: { type: String, index: true },
     rlnFmNmV2: { type: String },
+    rlnFmNmEn: { type: String, index: true },
     rlnType: { type: String },
     age: { type: Number, index: true },
     sex: { type: String, index: true },
@@ -38,7 +42,7 @@ const VoterSchema: Schema = new Schema(
 // Compound indexes for common queries
 VoterSchema.index({ acNo: 1, partNo: 1 });
 VoterSchema.index({ houseNo: 1, sectionNo: 1 });
-VoterSchema.index({ fmNameV2: 'text', rlnFmNmV2: 'text' });
+VoterSchema.index({ fmNameV2: 'text', rlnFmNmV2: 'text', fmNameEn: 'text', rlnFmNmEn: 'text' });
 
 export default mongoose.models.Voter || mongoose.model<IVoter>('Voter', VoterSchema);
 
