@@ -66,7 +66,7 @@ async function importSheetData(
   for (const row of data as any[]) {
     try {
       const fmNameV2 = row.FM_NAME_V2?.toString() || row['FM_NAME_V2']?.toString() || '';
-      const rlnFmNmV2 = row.RLN_FM_NM_V2?.toString() || row['RLN_FM_NM_V2']?.toString() || '';
+      const rlnFmNmV2 = row.RLN_FM_NM_V2?.toString() || row['RLN_FM_NM_V2']?.toString() || row.Rln_FM_NM_V2?.toString() || row['Rln_FM_NM_V2']?.toString() || '';
 
       const record = {
         acNo: parseInt(row.AC_NO || row.ac_no || row['AC_NO'] || row['ac_no']) || 0,

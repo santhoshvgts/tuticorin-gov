@@ -31,9 +31,7 @@ export async function GET(request: NextRequest) {
     const tsc = searchParams.get('tsc') || 'Voter'; // Get constituency parameter
     const name = searchParams.get('name') || '';
     const relationName = searchParams.get('relationName') || '';
-    const idCardNo = searchParams.get('idCardNo') || '';
     const partNo = searchParams.get('partNo');
-    const age = searchParams.get('age');
     const sex = searchParams.get('sex');
     const limit = parseInt(searchParams.get('limit') || '50');
     const page = parseInt(searchParams.get('page') || '1');
@@ -76,16 +74,9 @@ export async function GET(request: NextRequest) {
       });
     }
 
-    if (idCardNo) {
-      andConditions.push({ idCardNo: idCardNo });
-    }
-
     // Apply additional filters
     if (partNo) {
       andConditions.push({ partNo: parseInt(partNo) });
-    }
-    if (age) {
-      andConditions.push({ age: parseInt(age) });
     }
     if (sex) {
       andConditions.push({ sex: sex.toUpperCase() });

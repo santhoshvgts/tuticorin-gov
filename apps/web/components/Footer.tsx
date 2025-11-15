@@ -8,13 +8,13 @@ interface FooterProps {
 }
 
 const CONSTITUENCY_NAMES: Record<string, { en: string; ta: string }> = {
-  'AC210': { en: 'Thoothukudi', ta: 'தூத்துக்குடி' },
-  'AC211': { en: 'Vilathikulam', ta: 'விளாத்திகுளம்' },
-  'AC212': { en: 'Tiruchendur', ta: 'திருச்செந்தூர்' },
-  'AC224': { en: 'Srivaikuntam', ta: 'ஸ்ரீவைகுண்டம்' },
-  'AC225': { en: 'Constituency 225', ta: 'தொகுதி 225' },
-  'AC226': { en: 'Constituency 226', ta: 'தொகுதி 226' },
-  'AC227': { en: 'Constituency 227', ta: 'தொகுதி 227' },
+  'AC210': { en: 'Vilathikulam', ta: 'விளாத்திகுளம்' },
+  'AC211': { en: 'Ottapidaram (SC)', ta: 'ஓட்டப்பிடாரம் (தனி)' },
+  'AC212': { en: 'Kovilpatti', ta: 'கோவில்பட்டி' },
+  'AC224': { en: 'Sattankulam', ta: 'சாத்தான்குளம்' },
+  'AC225': { en: 'Tiruchendur', ta: 'திருச்செந்தூர்' },
+  'AC226': { en: 'Srivaikuntam', ta: 'ஸ்ரீவைகுண்டம்' },
+  'AC227': { en: 'Thoothukudi', ta: 'தூத்துக்குடி' },
 };
 
 export default function Footer({ constituency }: FooterProps) {
@@ -35,17 +35,17 @@ export default function Footer({ constituency }: FooterProps) {
 
   const getFooterText = () => {
     if (!constituency) {
-      return 'தேர்தாளர் பட்டியல் தேடல் அமைப்பு - தூத்துக்குடி மாவட்டம் / Electoral Roll Search System - Thoothukudi District';
+      return 'வாக்காளர் பட்டியல் தேடல் அமைப்பு - தூத்துக்குடி மாவட்டம் / Electoral Roll Search System - Thoothukudi District';
     }
 
     const acNumber = constituency.replace('AC', '');
     const names = CONSTITUENCY_NAMES[constituency];
 
     if (names) {
-      return `${names.ta} சட்டமன்ற தொகுதி ${acNumber}-ன் தேர்தாளர் பட்டியல் தேடல் அமைப்பு / Electoral Roll Search System for ${names.en} Assembly Constituency ${acNumber}`;
+      return `${names.ta} சட்டமன்ற தொகுதி ${acNumber}-ன் வாக்காளர் பட்டியல் தேடல் அமைப்பு / Electoral Roll Search System for ${names.en} Assembly Constituency ${acNumber}`;
     }
 
-    return `சட்டமன்ற தொகுதி ${acNumber}-ன் தேர்தாளர் பட்டியல் தேடல் அமைப்பு / Electoral Roll Search System for Assembly Constituency ${acNumber}`;
+    return `சட்டமன்ற தொகுதி ${acNumber}-ன் வாக்காளர் பட்டியல் தேடல் அமைப்பு / Electoral Roll Search System for Assembly Constituency ${acNumber}`;
   };
 
   return (

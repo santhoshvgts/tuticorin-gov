@@ -3,28 +3,26 @@
 import { useState } from 'react';
 import { Button } from '@workspace/ui/components/button';
 import { Search, Loader2, Filter, X } from 'lucide-react';
+import PollingStationSelect from './PollingStationSelect';
 
 interface SearchFormProps {
   onSearch: (params: SearchParams) => void;
   onReset?: () => void;
   isLoading: boolean;
+  constituency: string;
 }
 
 export interface SearchParams {
   name?: string;
   relationName?: string;
-  idCardNo?: string;
   partNo?: string;
-  age?: string;
   sex?: string;
 }
 
-export default function SearchForm({ onSearch, onReset, isLoading }: SearchFormProps) {
+export default function SearchForm({ onSearch, onReset, isLoading, constituency }: SearchFormProps) {
   const [name, setName] = useState('');
   const [relationName, setRelationName] = useState('');
-  const [idCardNo, setIdCardNo] = useState('');
   const [partNo, setPartNo] = useState('');
-  const [age, setAge] = useState('');
   const [sex, setSex] = useState('');
   const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
 
@@ -32,16 +30,14 @@ export default function SearchForm({ onSearch, onReset, isLoading }: SearchFormP
     e.preventDefault();
 
     // Check if at least one search field is filled
-    if (!name.trim() && !relationName.trim() && !idCardNo.trim()) {
+    if (!name.trim() && !relationName.trim()) {
       return;
     }
 
     onSearch({
       name: name.trim() || undefined,
       relationName: relationName.trim() || undefined,
-      idCardNo: idCardNo.trim() || undefined,
       partNo: partNo.trim() || undefined,
-      age: age.trim() || undefined,
       sex: sex.trim() || undefined,
     });
   };
@@ -49,9 +45,7 @@ export default function SearchForm({ onSearch, onReset, isLoading }: SearchFormP
   const handleReset = () => {
     setName('');
     setRelationName('');
-    setIdCardNo('');
     setPartNo('');
-    setAge('');
     setSex('');
     setShowAdvancedFilters(false);
 
@@ -61,7 +55,7 @@ export default function SearchForm({ onSearch, onReset, isLoading }: SearchFormP
     }
   };
 
-  const hasSearchCriteria = name.trim() || relationName.trim() || idCardNo.trim();
+  const hasSearchCriteria = name.trim() || relationName.trim();
 
   return (
     <form onSubmit={handleSubmit} className="space-y-3">
@@ -202,46 +196,17 @@ export default function SearchForm({ onSearch, onReset, isLoading }: SearchFormP
       </div>
 
       {/* Desktop: Advanced Filters */}
-      <div className={`hidden lg:grid lg:grid-cols-3 lg:gap-3 ${showAdvancedFilters ? 'lg:grid' : 'lg:hidden'}`}>
-        <div>
-          <label htmlFor="id-card-desktop" className="block text-xs font-medium mb-1.5">
-            ID Card No / அடையாள அட்டை எண்
-          </label>
-          <input
-            id="id-card-desktop"
-            type="text"
-            value={idCardNo}
-            onChange={(e) => setIdCardNo(e.target.value)}
-            placeholder="ID Card..."
-            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-        </div>
-
+      <div className={`hidden lg:grid lg:grid-cols-1 lg:gap-3 ${showAdvancedFilters ? 'lg:grid' : 'lg:hidden'}`}>
         <div>
           <label htmlFor="part-no-desktop" className="block text-xs font-medium mb-1.5">
-            Part No / பகுதி எண்
+            Polling Station / வாக்குச் சாவடி
           </label>
-          <input
+          <PollingStationSelect
             id="part-no-desktop"
-            type="number"
             value={partNo}
-            onChange={(e) => setPartNo(e.target.value)}
-            placeholder="Part..."
-            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-        </div>
-
-        <div>
-          <label htmlFor="age-desktop" className="block text-xs font-medium mb-1.5">
-            Age / வயது
-          </label>
-          <input
-            id="age-desktop"
-            type="number"
-            value={age}
-            onChange={(e) => setAge(e.target.value)}
-            placeholder="Age..."
-            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            onChange={setPartNo}
+            constituency={constituency}
+            disabled={isLoading}
           />
         </div>
       </div>
@@ -288,47 +253,16 @@ export default function SearchForm({ onSearch, onReset, isLoading }: SearchFormP
 
       {/* Mobile: Advanced Filters */}
       <div className={`space-y-3 lg:hidden ${showAdvancedFilters ? 'block' : 'hidden'}`}>
-        <div className="grid grid-cols-2 gap-3">
-          <div>
-            <label htmlFor="id-card-mobile" className="block text-xs font-medium mb-1.5">
-              ID Card No / அடையாள அட்டை எண்
-            </label>
-            <input
-              id="id-card-mobile"
-              type="text"
-              value={idCardNo}
-              onChange={(e) => setIdCardNo(e.target.value)}
-              placeholder="ID card..."
-              className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-
-          <div>
-            <label htmlFor="part-no-mobile" className="block text-xs font-medium mb-1.5">
-              Part No / பகுதி எண்
-            </label>
-            <input
-              id="part-no-mobile"
-              type="number"
-              value={partNo}
-              onChange={(e) => setPartNo(e.target.value)}
-              placeholder="Part..."
-              className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-        </div>
-
         <div>
-          <label htmlFor="age-mobile" className="block text-xs font-medium mb-1.5">
-            Age / வயது
+          <label htmlFor="part-no-mobile" className="block text-xs font-medium mb-1.5">
+            Polling Station / வாக்குச் சாவடி
           </label>
-          <input
-            id="age-mobile"
-            type="number"
-            value={age}
-            onChange={(e) => setAge(e.target.value)}
-            placeholder="Age..."
-            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          <PollingStationSelect
+            id="part-no-mobile"
+            value={partNo}
+            onChange={setPartNo}
+            constituency={constituency}
+            disabled={isLoading}
           />
         </div>
       </div>

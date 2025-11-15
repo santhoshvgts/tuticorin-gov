@@ -114,9 +114,7 @@ function PageContent() {
 
       if (params.name) searchParams.append('name', params.name);
       if (params.relationName) searchParams.append('relationName', params.relationName);
-      if (params.idCardNo) searchParams.append('idCardNo', params.idCardNo);
       if (params.partNo) searchParams.append('partNo', params.partNo);
-      if (params.age) searchParams.append('age', params.age);
       if (params.sex) searchParams.append('sex', params.sex);
 
       const response = await fetch(`/api/voters/search?${searchParams.toString()}`);
@@ -184,8 +182,8 @@ function PageContent() {
                 className="bg-white hover:bg-blue-50 border-2 border-gray-200 hover:border-blue-400 rounded-lg p-6 text-left transition-all duration-200 shadow-sm hover:shadow-md"
               >
                 <div className="text-xl font-bold text-blue-900 mb-1">AC 210</div>
-                <div className="text-gray-700 font-medium">Thoothukudi</div>
-                <div className="text-gray-600 text-sm mt-1">தூத்துக்குடி</div>
+                <div className="text-gray-700 font-medium">Vilathikulam</div>
+                <div className="text-gray-600 text-sm mt-1">விளாத்திகுளம்</div>
               </button>
 
               <button
@@ -193,8 +191,8 @@ function PageContent() {
                 className="bg-white hover:bg-blue-50 border-2 border-gray-200 hover:border-blue-400 rounded-lg p-6 text-left transition-all duration-200 shadow-sm hover:shadow-md"
               >
                 <div className="text-xl font-bold text-blue-900 mb-1">AC 211</div>
-                <div className="text-gray-700 font-medium">Vilathikulam</div>
-                <div className="text-gray-600 text-sm mt-1">விளாத்திகுளம்</div>
+                <div className="text-gray-700 font-medium">Ottapidaram (SC)</div>
+                <div className="text-gray-600 text-sm mt-1">ஓட்டப்பிடாரம் (தனி)</div>
               </button>
 
               <button
@@ -202,8 +200,8 @@ function PageContent() {
                 className="bg-white hover:bg-blue-50 border-2 border-gray-200 hover:border-blue-400 rounded-lg p-6 text-left transition-all duration-200 shadow-sm hover:shadow-md"
               >
                 <div className="text-xl font-bold text-blue-900 mb-1">AC 212</div>
-                <div className="text-gray-700 font-medium">Tiruchendur</div>
-                <div className="text-gray-600 text-sm mt-1">திருச்செந்தூர்</div>
+                <div className="text-gray-700 font-medium">Kovilpatti</div>
+                <div className="text-gray-600 text-sm mt-1">கோவில்பட்டி</div>
               </button>
 
               <button
@@ -211,8 +209,8 @@ function PageContent() {
                 className="bg-white hover:bg-blue-50 border-2 border-gray-200 hover:border-blue-400 rounded-lg p-6 text-left transition-all duration-200 shadow-sm hover:shadow-md"
               >
                 <div className="text-xl font-bold text-blue-900 mb-1">AC 224</div>
-                <div className="text-gray-700 font-medium">Srivaikuntam</div>
-                <div className="text-gray-600 text-sm mt-1">ஸ்ரீவைகுண்டம்</div>
+                <div className="text-gray-700 font-medium">Sattankulam</div>
+                <div className="text-gray-600 text-sm mt-1">சாத்தான்குளம்</div>
               </button>
 
               <button
@@ -220,8 +218,8 @@ function PageContent() {
                 className="bg-white hover:bg-blue-50 border-2 border-gray-200 hover:border-blue-400 rounded-lg p-6 text-left transition-all duration-200 shadow-sm hover:shadow-md"
               >
                 <div className="text-xl font-bold text-blue-900 mb-1">AC 225</div>
-                <div className="text-gray-700 font-medium">Constituency 225</div>
-                <div className="text-gray-600 text-sm mt-1">தொகுதி 225</div>
+                <div className="text-gray-700 font-medium">Tiruchendur</div>
+                <div className="text-gray-600 text-sm mt-1">திருச்செந்தூர்</div>
               </button>
 
               <button
@@ -229,8 +227,8 @@ function PageContent() {
                 className="bg-white hover:bg-blue-50 border-2 border-gray-200 hover:border-blue-400 rounded-lg p-6 text-left transition-all duration-200 shadow-sm hover:shadow-md"
               >
                 <div className="text-xl font-bold text-blue-900 mb-1">AC 226</div>
-                <div className="text-gray-700 font-medium">Constituency 226</div>
-                <div className="text-gray-600 text-sm mt-1">தொகுதி 226</div>
+                <div className="text-gray-700 font-medium">Srivaikuntam</div>
+                <div className="text-gray-600 text-sm mt-1">ஸ்ரீவைகுண்டம்</div>
               </button>
 
               <button
@@ -238,8 +236,8 @@ function PageContent() {
                 className="bg-white hover:bg-blue-50 border-2 border-gray-200 hover:border-blue-400 rounded-lg p-6 text-left transition-all duration-200 shadow-sm hover:shadow-md"
               >
                 <div className="text-xl font-bold text-blue-900 mb-1">AC 227</div>
-                <div className="text-gray-700 font-medium">Constituency 227</div>
-                <div className="text-gray-600 text-sm mt-1">தொகுதி 227</div>
+                <div className="text-gray-700 font-medium">Thoothukudi</div>
+                <div className="text-gray-600 text-sm mt-1">தூத்துக்குடி</div>
               </button>
             </div>
           </div>
@@ -250,7 +248,7 @@ function PageContent() {
       {selectedTsc && (
         <div className="hidden lg:block sticky top-[73px] z-10 bg-white border-b border-gray-200 shadow-sm">
           <div className="container mx-auto px-4 py-4">
-            <SearchForm onSearch={handleSearch} onReset={handleReset} isLoading={isLoading} />
+            <SearchForm onSearch={handleSearch} onReset={handleReset} isLoading={isLoading} constituency={selectedTsc} />
           </div>
         </div>
       )}
@@ -260,7 +258,7 @@ function PageContent() {
         <div className="lg:hidden">
           <div className="container mx-auto px-4 py-4">
             <div className="bg-white rounded-lg shadow-sm p-4">
-              <SearchForm onSearch={handleSearch} onReset={handleReset} isLoading={isLoading} />
+              <SearchForm onSearch={handleSearch} onReset={handleReset} isLoading={isLoading} constituency={selectedTsc} />
             </div>
           </div>
         </div>
@@ -305,14 +303,14 @@ function PageContent() {
                 </svg>
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-6">
-                தேர்தாளர் பட்டியல் தேடல் - 2002 தரவு / Search Electoral Roll - 2002 Data
+                வாக்காளர் பட்டியல் தேடல் - 2002 தரவு / Search Electoral Roll - 2002 Data
               </h3>
 
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 text-left">
                 {/* Tamil Section */}
                 <div className="space-y-3 text-sm text-gray-600">
                   <p className="font-medium text-center mb-4">
-                    2002 தேர்தாளர் பட்டியலிலிருந்து தேர்தாளர்களைத் தேட மேலே உள்ள வடிப்பான்களைப் பயன்படுத்தவும்:
+                    2002 வாக்காளர் பட்டியலிலிருந்து வாக்காளர்களைத் தேட மேலே உள்ள வடிப்பான்களைப் பயன்படுத்தவும்:
                   </p>
                   <ul className="list-disc list-inside space-y-2">
                     <li>
@@ -325,7 +323,7 @@ function PageContent() {
                       <span className="font-medium">பாலினம்:</span> பாலினத்தால் வடிகட்டவும் (ஆண்/பெண்/மற்றவை)
                     </li>
                     <li>
-                      <span className="font-medium">மேலும் வடிப்பான்கள்:</span> அடையாள அட்டை எண், பகுதி எண் மற்றும் வயதின் அடிப்படையில் வடிகட்டவும்
+                      <span className="font-medium">மேலும் வடிப்பான்கள்:</span> வாக்குச் சாவடி அடிப்படையில் வடிகட்டவும்
                     </li>
                   </ul>
                   <p className="text-center mt-6 text-gray-500 italic">
@@ -349,7 +347,7 @@ function PageContent() {
                       <span className="font-medium">Gender:</span> Filter by gender (Male/Female/Other)
                     </li>
                     <li>
-                      <span className="font-medium">More Filters:</span> Filter by ID Card Number, Part Number, and Age
+                      <span className="font-medium">More Filters:</span> Filter by Polling Station
                     </li>
                   </ul>
                   <p className="text-center mt-6 text-gray-500 italic">
