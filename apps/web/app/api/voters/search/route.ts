@@ -33,7 +33,7 @@ export async function GET(request: NextRequest) {
     const relationName = searchParams.get('relationName') || '';
     const partNo = searchParams.get('partNo');
     const sex = searchParams.get('sex');
-    const limit = parseInt(searchParams.get('limit') || '50');
+    const limit = parseInt(searchParams.get('limit') || '200');
     const page = parseInt(searchParams.get('page') || '1');
     const skip = (page - 1) * limit;
 

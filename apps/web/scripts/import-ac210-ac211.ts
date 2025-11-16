@@ -77,7 +77,7 @@ async function importSheetData(
         fmNameEn: transliterateToEnglish(fmNameV2),
         rlnFmNmV2: rlnFmNmV2,
         rlnFmNmEn: transliterateToEnglish(rlnFmNmV2),
-        rlnType: row.RLN_TYPE?.toString() || row.rln_type?.toString() || row['RLN_TYPE']?.toString() || row['rln_type']?.toString() || '',
+        rlnType: row.RLN_TYPE?.toString() || row.rln_type?.toString() || row['RLN_TYPE']?.toString() || row['Rln_type']?.toString() || '',
         age: row.AGE || row.age ? parseInt(row.AGE || row.age) : undefined,
         sex: row.SEX?.toString() || row.sex?.toString() || row['SEX']?.toString() || row['sex']?.toString() || '',
         idCardNo: row.IDCARD_NO?.toString() || row.idcard_no?.toString() || row['IDCARD_NO']?.toString() || row['idcard_no']?.toString() || '',
@@ -139,7 +139,7 @@ async function importData() {
     console.log(`Sheets found in workbook: ${workbook.SheetNames.join(', ')}`);
 
     // Import AC211withsex sheet to AC211 collection
-    await importSheetData(workbook, 'AC211withsex', AC211, 'AC211');
+    // await importSheetData(workbook, 'AC211withsex', AC211, 'AC211');
 
     // Import AC210withsex sheet to AC210 collection
     await importSheetData(workbook, 'AC210withsex', AC210, 'AC210');

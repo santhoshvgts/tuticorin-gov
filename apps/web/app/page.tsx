@@ -43,7 +43,7 @@ function PageContent() {
   const [pagination, setPagination] = useState({
     total: 0,
     page: 1,
-    limit: 50,
+    limit: 200,
     totalPages: 0,
   });
   const [isLoading, setIsLoading] = useState(false);
@@ -108,7 +108,7 @@ function PageContent() {
     try {
       const searchParams = new URLSearchParams({
         page: page.toString(),
-        limit: '50',
+        limit: '200',
         tsc: selectedTsc, // Add tsc parameter
       });
 
@@ -146,7 +146,7 @@ function PageContent() {
     setPagination({
       total: 0,
       page: 1,
-      limit: 50,
+      limit: 200,
       totalPages: 0,
     });
     setCurrentSearchParams(null);
