@@ -70,7 +70,7 @@ export default function SearchForm({ onSearch, onReset, isLoading, constituency 
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder="Enter name..."
+            placeholder="Enter name in tamil..."
             className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
@@ -84,7 +84,7 @@ export default function SearchForm({ onSearch, onReset, isLoading, constituency 
             type="text"
             value={relationName}
             onChange={(e) => setRelationName(e.target.value)}
-            placeholder="Relation name..."
+            placeholder="Relation name in tamil..."
             className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
@@ -118,7 +118,7 @@ export default function SearchForm({ onSearch, onReset, isLoading, constituency 
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder="Name..."
+            placeholder="Name in tamil..."
             className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
@@ -132,7 +132,7 @@ export default function SearchForm({ onSearch, onReset, isLoading, constituency 
             type="text"
             value={relationName}
             onChange={(e) => setRelationName(e.target.value)}
-            placeholder="Relation..."
+            placeholder="Relation name in tamil..."
             className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
