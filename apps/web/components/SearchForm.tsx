@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Button } from '@workspace/ui/components/button';
 import { Search, Loader2, Filter, X } from 'lucide-react';
 import PollingStationSelect from './PollingStationSelect';
+import TransliterateInput from './TransliterateInput';
 
 interface SearchFormProps {
   onSearch: (params: SearchParams) => void;
@@ -61,33 +62,23 @@ export default function SearchForm({ onSearch, onReset, isLoading, constituency 
     <form onSubmit={handleSubmit} className="space-y-3">
       {/* Mobile: Two column layout */}
       <div className="grid grid-cols-1 gap-3 lg:hidden">
-        <div>
-          <label htmlFor="name" className="block text-xs font-medium mb-1.5">
-            Elector Name / வாக்காளர் பெயர்
-          </label>
-          <input
-            id="name"
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="Enter name in tamil..."
-            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-        </div>
+        <TransliterateInput
+          id="name"
+          value={name}
+          onChange={setName}
+          placeholder="Type name in English..."
+          label="Elector Name / வாக்காளர் பெயர்"
+          className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
 
-        <div>
-          <label htmlFor="relation-name-mobile-primary" className="block text-xs font-medium mb-1.5">
-            Relation Name / உறவினர் பெயர்
-          </label>
-          <input
-            id="relation-name-mobile-primary"
-            type="text"
-            value={relationName}
-            onChange={(e) => setRelationName(e.target.value)}
-            placeholder="Relation name in tamil..."
-            className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-        </div>
+        <TransliterateInput
+          id="relation-name-mobile-primary"
+          value={relationName}
+          onChange={setRelationName}
+          placeholder="Type relation name in English..."
+          label="Relation Name / உறவினர் பெயர்"
+          className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
 
         <div>
           <label htmlFor="sex-mobile-primary" className="block text-xs font-medium mb-1.5">
@@ -108,31 +99,25 @@ export default function SearchForm({ onSearch, onReset, isLoading, constituency 
       </div>
 
       {/* Desktop: All filters, buttons in one row */}
-      <div className="hidden lg:flex lg:gap-3 lg:items-end">
+      <div className="hidden lg:flex lg:gap-3 lg:items-start">
         <div className="flex-1">
-          <label htmlFor="name-desktop" className="block text-xs font-medium mb-1.5">
-            Elector Name / வாக்காளர் பெயர்
-          </label>
-          <input
+          <TransliterateInput
             id="name-desktop"
-            type="text"
             value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="Name in tamil..."
+            onChange={setName}
+            placeholder="Type name in English..."
+            label="Elector Name / வாக்காளர் பெயர்"
             className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
 
         <div className="flex-1">
-          <label htmlFor="relation-name-desktop" className="block text-xs font-medium mb-1.5">
-            Relation Name / உறவினர் பெயர்
-          </label>
-          <input
+          <TransliterateInput
             id="relation-name-desktop"
-            type="text"
             value={relationName}
-            onChange={(e) => setRelationName(e.target.value)}
-            placeholder="Relation name in tamil..."
+            onChange={setRelationName}
+            placeholder="Type relation name in English..."
+            label="Relation Name / உறவினர் பெயர்"
             className="w-full px-3 py-2 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
@@ -154,7 +139,7 @@ export default function SearchForm({ onSearch, onReset, isLoading, constituency 
           </select>
         </div>
 
-        <div className="flex gap-2">
+        <div className="flex gap-2 pt-6">
           <Button
             type="button"
             variant="outline"
