@@ -9,6 +9,7 @@ import AC225 from '@/lib/models/AC225';
 import AC226 from '@/lib/models/AC226';
 import AC227 from '@/lib/models/AC227';
 import { Model } from 'mongoose';
+import { withApiProtection } from '@/lib/api-middleware';
 
 // Model mapping based on tsc (Taluk/Constituency) parameter
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -23,7 +24,7 @@ const MODEL_MAP: Record<string, Model<any>> = {
   'Voter': Voter, // Default/legacy
 };
 
-export async function GET(request: NextRequest) {
+async function handleGET(request: NextRequest) {
   try {
     await connectDB();
 
@@ -155,4 +156,7 @@ export async function GET(request: NextRequest) {
     );
   }
 }
+
+// Export with HMAC protection
+export const GET = withApiProtection(handleGET);
 

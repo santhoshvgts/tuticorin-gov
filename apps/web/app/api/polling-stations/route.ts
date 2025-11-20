@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import LegacyPart from '@/lib/models/LegacyPart';
+import { withApiProtection } from '@/lib/api-middleware';
 
-export async function GET(request: NextRequest) {
+async function handleGET(request: NextRequest) {
   try {
     await connectDB();
 
@@ -45,3 +46,6 @@ export async function GET(request: NextRequest) {
     );
   }
 }
+
+// Export with HMAC protection
+export const GET = withApiProtection(handleGET);

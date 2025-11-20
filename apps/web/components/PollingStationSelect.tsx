@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { ChevronDown } from 'lucide-react';
+import { signedFetch } from '@/lib/client-hmac';
 
 interface PollingStation {
   _id: string;
@@ -42,7 +43,7 @@ export default function PollingStationSelect({
     const fetchPollingStations = async () => {
       setIsLoading(true);
       try {
-        const response = await fetch(`/api/polling-stations?tsc=${constituency}`);
+        const response = await signedFetch(`/api/polling-stations?tsc=${constituency}`);
         const data = await response.json();
 
         if (data.success) {

@@ -6,6 +6,7 @@ import SearchForm, { SearchParams } from '@/components/SearchForm';
 import VoterResults from '@/components/VoterResults';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import { signedFetch } from '@/lib/client-hmac';
 
 interface Voter {
   _id: string;
@@ -117,7 +118,7 @@ function PageContent() {
       if (params.partNo) searchParams.append('partNo', params.partNo);
       if (params.sex) searchParams.append('sex', params.sex);
 
-      const response = await fetch(`/api/voters/search?${searchParams.toString()}`);
+      const response = await signedFetch(`/api/voters/search?${searchParams.toString()}`);
       const data: SearchResponse = await response.json();
 
       if (data.success) {
