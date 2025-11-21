@@ -18,7 +18,9 @@
     "import:ac212-ac224": "tsx scripts/import-ac212-ac224.ts",
     "import:ac210-ac211": "tsx scripts/import-ac210-ac211.ts",
     "import:ac225-ac226": "tsx scripts/import-ac225-ac226.ts",
-    "import:ac227": "tsx scripts/import-ac227.ts"
+    "import:ac227": "tsx scripts/import-ac227.ts",
+    "import:legacypart-2025": "tsx scripts/import-legacypart-2025.ts",
+    "import:map-2025-2002": "tsx scripts/import-map-2025-2002.ts"
   },
   "dependencies": {
     "@indic-transliteration/sanscript": "^1.3.3",
