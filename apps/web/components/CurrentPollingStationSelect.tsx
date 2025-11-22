@@ -46,7 +46,27 @@ export default function CurrentPollingStationSelect({
 
       setIsLoading(true);
       try {
-        const response = await signedFetch(`/api/polling-stations-2025?constituency=${constituency}`);
+        // Direct mapping from 2002 AC to 2025 AC
+        const directMapping: Record<string, number> = {
+          'AC210': 213,
+          'AC211': 217,
+          'AC212': 218,
+          'AC225': 215,
+          'AC226': 216,
+          'AC227': 214,
+        };
+
+        let url = '/api/polling-stations-2025?';
+
+        if (directMapping[constituency]) {
+          // Use direct 2025 AC number
+          url += `acNo2025=${directMapping[constituency]}`;
+        } else {
+          // Use database mapping logic for ACs like 224
+          url += `constituency=${constituency}`;
+        }
+
+        const response = await signedFetch(url);
         const data = await response.json();
 
         if (data.success) {
