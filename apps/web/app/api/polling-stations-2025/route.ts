@@ -1,19 +1,57 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/mongodb';
 import LegacyPart2025 from '@/lib/models/LegacyPart2025';
+import Map20252002Part from '@/lib/models/Map20252002Part';
 import { withApiProtection } from '@/lib/api-middleware';
 
-async function handleGET() {
+async function handleGET(request: NextRequest) {
   try {
     await connectDB();
 
-    // Fetch all polling stations from 2025 data (not filtered by AC)
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const pollingStations = await (LegacyPart2025 as any).find({})
-      .sort({ acNo: 1, partNo: 1 })
-      .select({ acNo: 1, partNo: 1, partNameV1: 1, partNameTn: 1, localityV1: 1, localityTn: 1 })
-      .lean()
-      .exec();
+    const searchParams = request.nextUrl.searchParams;
+    const constituency = searchParams.get('constituency'); // e.g., "AC210"
+
+    let pollingStations;
+
+    if (constituency) {
+      // Extract AC number from constituency (e.g., "AC210" -> 210)
+      const acNo2002 = parseInt(constituency.replace('AC', ''));
+
+      // Find all 2025 AC:Part combinations that map to this 2002 AC
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const mappings = await (Map20252002Part as any).find({
+        acNo2002: acNo2002,
+      }).select({ acNo2025: 1, partNo2025: 1 }).lean().exec();
+
+      if (mappings && mappings.length > 0) {
+        // Create filter conditions for specific 2025 AC:Part combinations
+        const stationFilters = mappings.map((m: any) => ({
+          acNo: m.acNo2025,
+          partNo: m.partNo2025,
+        }));
+
+        // Fetch only the specific 2025 polling stations that are mapped
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        pollingStations = await (LegacyPart2025 as any).find({
+          $or: stationFilters,
+        })
+          .sort({ acNo: 1, partNo: 1 })
+          .select({ acNo: 1, partNo: 1, partNameV1: 1, partNameTn: 1, localityV1: 1, localityTn: 1 })
+          .lean()
+          .exec();
+      } else {
+        // No mappings found for this AC
+        pollingStations = [];
+      }
+    } else {
+      // No constituency filter, return all polling stations
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      pollingStations = await (LegacyPart2025 as any).find({})
+        .sort({ acNo: 1, partNo: 1 })
+        .select({ acNo: 1, partNo: 1, partNameV1: 1, partNameTn: 1, localityV1: 1, localityTn: 1 })
+        .lean()
+        .exec();
+    }
 
     return NextResponse.json({
       success: true,

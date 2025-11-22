@@ -17,7 +17,7 @@ interface PollingStation2025 {
 interface CurrentPollingStationSelectProps {
   value: string;
   onChange: (value: string) => void;
-  constituency?: string; // Optional, not used but kept for API compatibility
+  constituency?: string; // 2002 AC (e.g., "AC210") to filter 2025 polling stations
   disabled?: boolean;
   id?: string;
 }
@@ -25,6 +25,7 @@ interface CurrentPollingStationSelectProps {
 export default function CurrentPollingStationSelect({
   value,
   onChange,
+  constituency,
   disabled = false,
   id,
 }: CurrentPollingStationSelectProps) {
@@ -35,12 +36,17 @@ export default function CurrentPollingStationSelect({
   const [displayValue, setDisplayValue] = useState('');
   const wrapperRef = useRef<HTMLDivElement>(null);
 
-  // Fetch all polling stations (not filtered by constituency)
+  // Fetch polling stations filtered by constituency
   useEffect(() => {
     const fetchPollingStations = async () => {
+      if (!constituency) {
+        setPollingStations([]);
+        return;
+      }
+
       setIsLoading(true);
       try {
-        const response = await signedFetch(`/api/polling-stations-2025`);
+        const response = await signedFetch(`/api/polling-stations-2025?constituency=${constituency}`);
         const data = await response.json();
 
         if (data.success) {
@@ -54,7 +60,7 @@ export default function CurrentPollingStationSelect({
     };
 
     fetchPollingStations();
-  }, []);
+  }, [constituency]);
 
   // Update display value when value changes
   useEffect(() => {
